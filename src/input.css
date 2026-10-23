@@ -316,8 +316,10 @@
     @apply h-5 w-5;
   }
 
+  /* Block variants live in the drawer / sidebar (touch contexts): 54px tall,
+     matching the block direction switch whose options are 44px targets. */
   .icon-btn--block {
-    @apply w-full;
+    @apply h-[3.375rem] w-full;
   }
 
   [data-theme='dark'] .theme-icon--to-dark,
@@ -340,11 +342,11 @@
   }
 
   .dir-switch--block {
-    @apply flex w-full;
+    @apply flex h-auto w-full;
   }
 
   .dir-switch--block .dir-switch__btn {
-    @apply flex-1;
+    @apply min-h-11 flex-1;
   }
 
   /* Links -----------------------------------------------------------------
@@ -509,6 +511,33 @@
 
   .drawer__foot {
     @apply shrink-0 px-gutter pb-8 pt-3;
+  }
+
+  /* Scroll-to-top ---------------------------------------------------------
+     Created by main.js on public pages. Fixed to the inline-end corner
+     (bottom-right in LTR, bottom-left in RTL); main.js decides when it shows
+     so it never rests over content. Hidden with visibility, so it also
+     leaves the tab order. */
+  .scroll-top {
+    @apply fixed bottom-4 end-4 z-30 inline-flex h-12 w-12 items-center justify-center rounded border border-line/30 bg-raised text-heading transition-[opacity,visibility,background-color,color,border-color] duration-200 hover:border-secondary hover:bg-secondary hover:text-secondary-fg sm:bottom-6 sm:end-6;
+    box-shadow: 0 10px 24px -14px rgb(var(--c-shadow) / 0.55);
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .scroll-top[data-visible='true'] {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .scroll-top svg {
+    @apply h-5 w-5;
+  }
+
+  /* When the button can't sit in the side margin, the footer's bottom row
+     keeps the corner it rests in at the end of the page clear of text. */
+  .site-footer[data-scroll-top-dock] .site-footer__base {
+    @apply pb-20 sm:pb-24;
   }
 
   /* Forms ----------------------------------------------------------------- */
@@ -1428,6 +1457,8 @@
 
   /* Plans — bill breakdown diagram ----------------------------------------- */
   .bill {
+    /* Sage panel: use the sage-safe accent for small text (as .surface-alt does). */
+    --c-accent-text: var(--c-accent-text-alt);
     @apply rounded bg-surface p-6 sm:p-8;
   }
 
@@ -1861,6 +1892,30 @@
 
   .app-sidebar__policy {
     @apply px-3;
+  }
+
+  /* Direction switch inside the account portal. The sidebar is a pine
+     .surface-inverse panel, where the default pressed fill (fg on bg) would
+     be porcelain on porcelain in the light theme, so the pressed state uses
+     the inverse pair instead. Group borders reach 3:1 against both panels,
+     and hover / press add a fill, so states never rely on text colour alone. */
+  .app-sidebar .dir-switch,
+  .app-topbar .dir-switch {
+    @apply border-line/55;
+  }
+
+  .app-sidebar .dir-switch__btn:not([aria-pressed='true']):hover,
+  .app-topbar .dir-switch__btn:not([aria-pressed='true']):hover {
+    @apply bg-line/10;
+  }
+
+  .app-sidebar .dir-switch__btn:not([aria-pressed='true']):active,
+  .app-topbar .dir-switch__btn:not([aria-pressed='true']):active {
+    @apply bg-line/20;
+  }
+
+  .app-sidebar .dir-switch__btn[aria-pressed='true'] {
+    @apply bg-heading text-inverse hover:text-inverse;
   }
 
   .app-main {

@@ -21,7 +21,7 @@ styleguide.html        Internal design-system reference (noindex, not linked)
 src/input.css          Design tokens, base styles, components (Tailwind source)
 src/partials/          head.html, header.html, footer.html (single source of truth)
 assets/css/styles.css  Compiled output — do not edit
-assets/js/main.js      Dropdown, mobile drawer, footer year
+assets/js/main.js      Dropdown, mobile drawer, footer year, scroll-to-top
 assets/images/         Images and icons
 scripts/               build-partials, check, serve (zero-dependency Node)
 tailwind.config.js     Maps CSS-variable tokens to Tailwind
@@ -81,6 +81,10 @@ It's also exposed as `brand-*` for fixed uses.
   Plans: `.page-hero--media-start` + `.hero-legend`, `.table-scroll` / `.plan-table` (real table with a sticky feature column, scrolls inside a focusable region below 768px), `.bill` (bill breakdown diagram), `.terms`, `.checklist`.
   Claims: `.hero-steps`, `.timeline`, `.invoice` (annotated sample), `.tracker` / `.status-panel` (`.claim-flow__status` stacks it beside the form from lg), `.tag`.
   Contact: `.map-frame` (compact OpenStreetMap embed, regional view, no marker).
+  Shared: `.scroll-top`, created by main.js on public pages only (not login/dashboard). It sits in the inline-end corner. Where the side
+  margin holds it, it stays shown; on narrower screens it hides while reading downward, shows on scroll-up (fading out once scrolling
+  settles if it covers content) and rests at page end in a corner the footer keeps clear (`data-scroll-top-dock`).
+  Dashboard: inside `.app-sidebar` / `.app-topbar` the direction switch has 3:1 borders, hover/press fills, and an inverse pressed state.
 - **Images:** `assets/images/home/`, `assets/images/home-2/` and `assets/images/inner/` hold responsive WebP files. Each folder has a `CREDITS.md` with provenance (all CC0 / public domain).
 
 

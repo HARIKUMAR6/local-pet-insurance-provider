@@ -380,10 +380,106 @@
     });
   }
 
+  /* ------------------------------------------------------------------------
+     Scroll-to-top (public pages only; account pages have their own chrome)
+     Available once the reader has scrolled about a screen.
+     - Wide screens: the side margin holds the button, so it stays shown.
+     - Narrower screens, where it would sit over the content column: hidden
+       while reading downward; shown when scrolling back up; once scrolling
+       settles it fades out again if it is covering content (unless hovered
+       or focused); and at the end of the page it rests in a corner the
+       footer keeps clear for it (data-scroll-top-dock).
+     Smooth scroll unless reduced motion is preferred.
+     ------------------------------------------------------------------------ */
+  function initScrollTop() {
+    if (document.body.dataset.chrome === 'app') return;
+    const footer = document.querySelector('.site-footer');
+    const content = document.querySelector('main .container-site');
+    const SCROLL_DEADZONE = 8;
+    const SETTLE_MS = 2500;
+    const CONTENT = 'a, button, input, select, textarea, label, img, svg, iframe, video, p, h1, h2, h3, h4, h5, h6, li, dt, dd, th, td, span, figure, blockquote';
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'scroll-top';
+    button.setAttribute('aria-label', 'Scroll to top');
+    button.innerHTML = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 16V4M4.5 9.5 10 4l5.5 5.5"/></svg>';
+    document.body.appendChild(button);
+
+    let frame = 0;
+    let settleTimer = 0;
+    let lastY = window.scrollY;
+    let scrollingUp = false;
+    let settled = true;
+
+    // True when the button fits in the margin beside the content column.
+    const inMargin = () => {
+      if (!content) return false;
+      const box = content.getBoundingClientRect();
+      const contentStart = box.left + parseFloat(getComputedStyle(content).paddingLeft);
+      const edge = parseFloat(getComputedStyle(button).insetInlineEnd) || 16;
+      return contentStart >= edge + button.offsetWidth + 8;
+    };
+
+    // True when page content lies under the button (sampled at its centre and
+    // just inside each corner; the button itself is skipped).
+    const coversContent = () => {
+      const r = button.getBoundingClientRect();
+      const points = [[r.left + r.width / 2, r.top + r.height / 2], [r.left + 4, r.top + 4], [r.right - 4, r.top + 4], [r.left + 4, r.bottom - 4], [r.right - 4, r.bottom - 4]];
+      return points.some(([x, y]) => {
+        const under = document.elementsFromPoint(x, y).find((el) => el !== button && !button.contains(el));
+        return !!under && !!under.closest(CONTENT) && !under.closest('.scroll-top');
+      });
+    };
+
+    const update = () => {
+      frame = 0;
+      const y = window.scrollY;
+      if (Math.abs(y - lastY) > SCROLL_DEADZONE) {
+        scrollingUp = y < lastY;
+        lastY = y;
+      }
+      const roomy = inMargin();
+      footer?.toggleAttribute('data-scroll-top-dock', !roomy);
+
+      const past = y > Math.max(480, window.innerHeight * 0.75);
+      const atEnd = !!footer && footer.getBoundingClientRect().bottom <= window.innerHeight + 2;
+      const engaged = document.activeElement === button || button.matches(':hover');
+      const reading = scrollingUp && !(settled && coversContent());
+      const show = past && (roomy || atEnd || engaged || reading);
+      button.dataset.visible = String(show);
+    };
+    const schedule = () => {
+      if (!frame) frame = window.requestAnimationFrame(update);
+    };
+
+    window.addEventListener('scroll', () => {
+      settled = false;
+      window.clearTimeout(settleTimer);
+      settleTimer = window.setTimeout(() => {
+        settled = true;
+        schedule();
+      }, SETTLE_MS);
+      schedule();
+    }, { passive: true });
+    window.addEventListener('resize', schedule);
+    // Keyboard and pointer users can always reach it: stay shown while engaged.
+    ['focus', 'blur', 'mouseenter', 'mouseleave'].forEach((type) => button.addEventListener(type, schedule));
+    update();
+
+    button.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: reducedMotion() ? 'instant' : 'smooth' });
+      // The button hides at the top; hand focus to the start of the page
+      // (the logo) so keyboard users aren't left on a hidden control.
+      document.querySelector('.site-header .logo')?.focus({ preventScroll: true });
+    });
+  }
+
   initTheme();
   initDirection();
   initYear();
   initDropdowns();
   initDisclosures();
   initDrawer();
+  initScrollTop();
 })();
