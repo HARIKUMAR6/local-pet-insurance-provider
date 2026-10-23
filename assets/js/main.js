@@ -421,14 +421,14 @@
       return contentStart >= edge + button.offsetWidth + 8;
     };
 
-    // True when page content lies under the button (sampled at its centre and
-    // just inside each corner; the button itself is skipped).
+    // True when the button's box overlaps any piece of page content. Only
+    // evaluated once scrolling has settled, so the full scan stays cheap.
+    const CONTENT_SCOPE = `main :is(${CONTENT}), .site-footer :is(${CONTENT})`;
     const coversContent = () => {
       const r = button.getBoundingClientRect();
-      const points = [[r.left + r.width / 2, r.top + r.height / 2], [r.left + 4, r.top + 4], [r.right - 4, r.top + 4], [r.left + 4, r.bottom - 4], [r.right - 4, r.bottom - 4]];
-      return points.some(([x, y]) => {
-        const under = document.elementsFromPoint(x, y).find((el) => el !== button && !button.contains(el));
-        return !!under && !!under.closest(CONTENT) && !under.closest('.scroll-top');
+      return Array.from(document.querySelectorAll(CONTENT_SCOPE)).some((el) => {
+        const q = el.getBoundingClientRect();
+        return q.width > 0 && q.height > 0 && q.left < r.right && q.right > r.left && q.top < r.bottom && q.bottom > r.top;
       });
     };
 
@@ -445,7 +445,7 @@
       const past = y > Math.max(480, window.innerHeight * 0.75);
       const atEnd = !!footer && footer.getBoundingClientRect().bottom <= window.innerHeight + 2;
       const engaged = document.activeElement === button || button.matches(':hover');
-      const reading = scrollingUp && !(settled && coversContent());
+      const reading = scrollingUp && !(settled && !atEnd && coversContent());
       const show = past && (roomy || atEnd || engaged || reading);
       button.dataset.visible = String(show);
     };
