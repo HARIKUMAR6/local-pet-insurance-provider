@@ -1,0 +1,18 @@
+{
+  "name": "pawstead-pet-insurance",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Pawstead — static multi-page pet insurance website (HTML, Tailwind CSS, vanilla JS).",
+  "scripts": {
+    "build:partials": "node scripts/build-partials.mjs",
+    "build:css": "tailwindcss -i ./src/input.css -o ./assets/css/styles.css --minify",
+    "build": "npm run build:partials && npm run build:css",
+    "watch:css": "tailwindcss -i ./src/input.css -o ./assets/css/styles.css --watch",
+    "serve": "node scripts/serve.mjs",
+    "start": "npm run build && npm run serve",
+    "check": "node scripts/check.mjs"
+  },
+  "devDependencies": {
+    "tailwindcss": "3.4.17"
+  }
+}

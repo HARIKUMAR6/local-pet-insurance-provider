@@ -1,0 +1,19 @@
+<meta name="theme-color" content="#183C35">
+<script>
+  /* Apply saved theme/direction before first paint (no flash). Falls back to the OS colour scheme. */
+  (function () {
+    var root = document.documentElement, theme, dir;
+    try { theme = localStorage.getItem('pawstead-theme'); dir = localStorage.getItem('pawstead-dir'); } catch (e) {}
+    if (theme !== 'light' && theme !== 'dark') {
+      theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    root.setAttribute('data-theme', theme);
+    root.setAttribute('dir', dir === 'rtl' ? 'rtl' : 'ltr');
+  })();
+</script>
+<link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..700&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="assets/css/styles.css">
+<script src="assets/js/main.js" defer></script>

@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Claims — Pawstead</title>
+  <meta name="description" content="How Pawstead claims work: the three steps, the documents to prepare, and a prototype of claim submission and tracking.">
+  <!-- partial:head -->
+  <meta name="theme-color" content="#183C35">
+  <script>
+    /* Apply saved theme/direction before first paint (no flash). Falls back to the OS colour scheme. */
+    (function () {
+      var root = document.documentElement, theme, dir;
+      try { theme = localStorage.getItem('pawstead-theme'); dir = localStorage.getItem('pawstead-dir'); } catch (e) {}
+      if (theme !== 'light' && theme !== 'dark') {
+        theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      root.setAttribute('data-theme', theme);
+      root.setAttribute('dir', dir === 'rtl' ? 'rtl' : 'ltr');
+    })();
+  </script>
+  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..700&family=Inter:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script src="assets/js/main.js" defer></script>
+  <!-- /partial:head -->
+  <script src="assets/js/forms.js" defer></script>
+  <script src="assets/js/claims.js" defer></script>
+</head>
+<body data-page="claims">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- partial:header -->
+  <header class="site-header sticky top-0 z-40 border-b border-line/10 bg-bg">
+    <!-- Three-column grid (1fr auto 1fr) keeps the primary nav centred on the header itself, not in the leftover space. -->
+    <div class="site-header__bar container-site grid h-header grid-cols-[1fr_auto] items-center gap-4 xl:grid-cols-[1fr_auto_1fr] xl:gap-5">
+      <a class="logo justify-self-start" href="index.html" aria-label="Pawstead, go to Home 1" dir="ltr">
+        <svg class="logo__mark" viewBox="0 0 32 36" aria-hidden="true" focusable="false"><path class="logo__shield" d="M16 1.25 29.5 5.9v10.6c0 8.6-5.5 15.1-13.5 18.25C8 31.6 2.5 25.1 2.5 16.5V5.9Z"/><g class="logo__paw"><ellipse cx="9.9" cy="15.6" rx="2" ry="2.55" transform="rotate(-24 9.9 15.6)"/><ellipse cx="13.7" cy="11.5" rx="2.05" ry="2.7" transform="rotate(-8 13.7 11.5)"/><ellipse cx="18.3" cy="11.5" rx="2.05" ry="2.7" transform="rotate(8 18.3 11.5)"/><ellipse cx="22.1" cy="15.6" rx="2" ry="2.55" transform="rotate(24 22.1 15.6)"/><path d="M16 17.6c-3 0-6.3 3.5-6.3 6.5 0 2 1.5 3.2 3.3 3.2 1.2 0 2-.6 3-.6s1.8.6 3 .6c1.8 0 3.3-1.2 3.3-3.2 0-3-3.3-6.5-6.3-6.5Z"/></g></svg>
+        <span class="logo__word">Pawstead</span>
+      </a>
+
+      <nav class="site-nav hidden xl:block" aria-label="Primary">
+        <ul class="flex items-center" role="list">
+          <li class="relative" data-dropdown>
+            <button type="button" class="nav-link" aria-expanded="false" aria-controls="nav-home-menu" data-dropdown-toggle data-nav-group="home">
+              Home
+              <svg class="nav-link__chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m4 6 4 4 4-4"/></svg>
+            </button>
+            <ul id="nav-home-menu" class="dropdown" role="list" data-dropdown-panel hidden>
+              <li><a class="dropdown__link" href="index.html" data-nav="home-1">Home 1</a></li>
+              <li><a class="dropdown__link" href="home-2.html" data-nav="home-2">Home 2</a></li>
+            </ul>
+          </li>
+          <li><a class="nav-link" href="about.html" data-nav="about">About</a></li>
+          <li><a class="nav-link" href="plans.html" data-nav="plans">Plans</a></li>
+          <li><a class="nav-link" href="claims.html" data-nav="claims" aria-current="page">Claims</a></li>
+          <li><a class="nav-link" href="contact.html" data-nav="contact">Contact</a></li>
+          <li><a class="nav-link" href="dashboard.html" data-nav="dashboard">Dashboard</a></li>
+          <li><a class="nav-link" href="login.html" data-nav="login">Login</a></li>
+        </ul>
+      </nav>
+
+      <div class="flex items-center gap-3 justify-self-end xl:gap-2">
+        <div class="hidden items-center gap-2 xl:flex">
+          <div class="dir-switch" role="group" aria-label="Text direction">
+            <button type="button" class="dir-switch__btn" data-dir-option="ltr" aria-pressed="true">LTR</button>
+            <button type="button" class="dir-switch__btn" data-dir-option="rtl" aria-pressed="false">RTL</button>
+          </div>
+          <button type="button" class="icon-btn" data-theme-toggle aria-label="Switch to dark theme">
+            <svg class="theme-icon--to-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z"/></svg>
+            <svg class="theme-icon--to-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/></svg>
+          </button>
+        </div>
+        <!-- Desktop only: below xl the drawer carries the same CTA in its footer. -->
+        <a class="btn btn-primary hidden xl:inline-flex" href="plans.html">Explore Plans</a>
+        <button type="button" class="icon-btn xl:hidden" aria-label="Open menu" aria-expanded="false" aria-controls="site-drawer" data-drawer-open>
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M3 5.5h14M3 10h14M3 14.5h14"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="drawer-backdrop" data-drawer-backdrop hidden></div>
+
+    <div id="site-drawer" class="drawer" role="dialog" aria-modal="true" aria-label="Site menu" data-drawer hidden>
+      <div class="drawer__head">
+        <a class="logo" href="index.html" aria-label="Pawstead, go to Home 1" dir="ltr">
+          <svg class="logo__mark" viewBox="0 0 32 36" aria-hidden="true" focusable="false"><path class="logo__shield" d="M16 1.25 29.5 5.9v10.6c0 8.6-5.5 15.1-13.5 18.25C8 31.6 2.5 25.1 2.5 16.5V5.9Z"/><g class="logo__paw"><ellipse cx="9.9" cy="15.6" rx="2" ry="2.55" transform="rotate(-24 9.9 15.6)"/><ellipse cx="13.7" cy="11.5" rx="2.05" ry="2.7" transform="rotate(-8 13.7 11.5)"/><ellipse cx="18.3" cy="11.5" rx="2.05" ry="2.7" transform="rotate(8 18.3 11.5)"/><ellipse cx="22.1" cy="15.6" rx="2" ry="2.55" transform="rotate(24 22.1 15.6)"/><path d="M16 17.6c-3 0-6.3 3.5-6.3 6.5 0 2 1.5 3.2 3.3 3.2 1.2 0 2-.6 3-.6s1.8.6 3 .6c1.8 0 3.3-1.2 3.3-3.2 0-3-3.3-6.5-6.3-6.5Z"/></g></svg>
+          <span class="logo__word">Pawstead</span>
+        </a>
+        <button type="button" class="icon-btn" aria-label="Close menu" data-drawer-close>
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="m5 5 10 10M15 5 5 15"/></svg>
+        </button>
+      </div>
+
+      <nav class="drawer__nav" aria-label="Mobile">
+        <ul role="list">
+          <li class="drawer__item">
+            <button type="button" class="drawer__link" aria-expanded="false" aria-controls="drawer-home-menu" data-disclosure-toggle data-nav-group="home">
+              Home
+              <svg class="nav-link__chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m4 6 4 4 4-4"/></svg>
+            </button>
+            <ul id="drawer-home-menu" class="drawer__sub" role="list" hidden>
+              <li><a class="drawer__sublink" href="index.html" data-nav="home-1">Home 1</a></li>
+              <li><a class="drawer__sublink" href="home-2.html" data-nav="home-2">Home 2</a></li>
+            </ul>
+          </li>
+          <li class="drawer__item"><a class="drawer__link" href="about.html" data-nav="about">About</a></li>
+          <li class="drawer__item"><a class="drawer__link" href="plans.html" data-nav="plans">Plans</a></li>
+          <li class="drawer__item"><a class="drawer__link" href="claims.html" data-nav="claims" aria-current="page">Claims</a></li>
+          <li class="drawer__item"><a class="drawer__link" href="contact.html" data-nav="contact">Contact</a></li>
+          <li class="drawer__item"><a class="drawer__link" href="dashboard.html" data-nav="dashboard">Dashboard</a></li>
+          <li class="drawer__item"><a class="drawer__link" href="login.html" data-nav="login">Login</a></li>
+        </ul>
+      </nav>
+
+      <div class="drawer__controls">
+        <div class="dir-switch dir-switch--block" role="group" aria-label="Text direction">
+          <button type="button" class="dir-switch__btn" data-dir-option="ltr" aria-pressed="true">LTR</button>
+          <button type="button" class="dir-switch__btn" data-dir-option="rtl" aria-pressed="false">RTL</button>
+        </div>
+        <button type="button" class="icon-btn icon-btn--block" data-theme-toggle aria-label="Switch to dark theme">
+          <svg class="theme-icon--to-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z"/></svg>
+          <svg class="theme-icon--to-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/></svg>
+        </button>
+      </div>
+
+      <div class="drawer__foot">
+        <a class="btn btn-primary btn-block" href="plans.html">Explore Plans</a>
+      </div>
+    </div>
+  </header>
+  <!-- /partial:header -->
+
+  <main id="main" tabindex="-1">
+
+    <!-- Section 1 · Claims hero (process strip on the image) ----------------- -->
+    <section id="claims-hero" class="page-hero" aria-labelledby="page-title">
+      <div class="container-site">
+        <div class="page-hero__grid">
+          <div class="page-hero__body">
+            <p class="eyebrow">Pet insurance claims</p>
+            <h1 id="page-title" class="page-hero__title">Understand the Process. Stay Informed.</h1>
+            <p class="page-hero__lead">Review the claim steps and explore the claim-tracking prototype.</p>
+            <div class="page-hero__actions items-center gap-x-6">
+              <a class="btn btn-primary" href="#how-claims-work">View Claim Steps</a>
+              <a class="link-arrow" href="plans.html">
+                Explore Plans
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+              </a>
+            </div>
+          </div>
+          <figure class="page-hero__media">
+            <img
+              src="assets/images/inner/claims-hero-vet-1400.webp"
+              srcset="assets/images/inner/claims-hero-vet-800.webp 800w, assets/images/inner/claims-hero-vet-1400.webp 1400w"
+              sizes="(min-width: 48rem) 45vw, 100vw"
+              width="1400" height="727"
+              style="object-position: 64% 35%"
+              alt="A veterinarian in grey scrubs gently checks a puppy's ear during an examination."
+              fetchpriority="high" decoding="async">
+            <figcaption class="hero-steps surface-inverse">
+              <span class="sr-only">The claim process in three steps:</span>
+              <span class="hero-steps__item"><span class="hero-steps__num">01</span><span class="hero-steps__label">Visit</span></span>
+              <span class="hero-steps__item"><span class="hero-steps__num">02</span><span class="hero-steps__label">Submit</span></span>
+              <span class="hero-steps__item"><span class="hero-steps__num">03</span><span class="hero-steps__label">Track</span></span>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2 · How claims work ----------------------------------------- -->
+    <section id="how-claims-work" class="section" aria-labelledby="steps-title">
+      <div class="container-site">
+        <div class="grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-8">
+          <div class="lg:col-span-7">
+            <p class="eyebrow">How claims work</p>
+            <h2 id="steps-title" class="mt-4 max-w-[20ch]">Three steps, from the vet to the portal.</h2>
+          </div>
+          <p class="text-muted lg:col-span-5 lg:col-start-8">Timing and outcomes depend on the policy terms and the details of each claim.</p>
+        </div>
+        <ol class="timeline" role="list">
+          <li class="timeline__step">
+            <span class="timeline__node" aria-hidden="true">01</span>
+            <h3 class="heading-4 md:mt-6"><span class="sr-only">Step 1: </span>Visit Your Veterinarian</h3>
+            <p class="mt-2 max-w-[22rem] text-small text-muted">Get the care your pet needs. Keep relevant invoices and treatment documents.</p>
+            <p class="timeline__tag">Keep: invoice, treatment notes</p>
+          </li>
+          <li class="timeline__step">
+            <span class="timeline__node" aria-hidden="true">02</span>
+            <h3 class="heading-4 md:mt-6"><span class="sr-only">Step 2: </span>Submit Claim Information</h3>
+            <p class="mt-2 max-w-[22rem] text-small text-muted">Provide the required details and supporting documents through the claim-submission process.</p>
+            <p class="timeline__tag">Provide: claim details, documents</p>
+          </li>
+          <li class="timeline__step">
+            <span class="timeline__node" aria-hidden="true">03</span>
+            <h3 class="heading-4 md:mt-6"><span class="sr-only">Step 3: </span>Track Claim Progress</h3>
+            <p class="mt-2 max-w-[22rem] text-small text-muted">Review the current status and any next steps shown in the portal.</p>
+            <p class="timeline__tag">Review: status, next steps</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Section 3 · Prepare your documents ---------------------------------- -->
+    <section id="prepare-documents" class="section surface-alt" aria-labelledby="docs-title">
+      <div class="container-site grid gap-12 lg:grid-cols-12 lg:items-start lg:gap-8">
+        <div class="lg:col-span-6">
+          <p class="eyebrow">Prepare your documents</p>
+          <h2 id="docs-title" class="mt-4 max-w-[18ch]">What a claim may ask for.</h2>
+          <ul class="checklist mt-8" role="list">
+            <li>
+              <span class="checklist__box" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="m3.5 8.5 3 3 6-7"/></svg></span>
+              <span><strong class="font-semibold text-heading">Policy or member reference</strong></span>
+            </li>
+            <li>
+              <span class="checklist__box" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="m3.5 8.5 3 3 6-7"/></svg></span>
+              <span><strong class="font-semibold text-heading">Pet and treatment details</strong> <span class="text-muted">· see ① on the sample</span></span>
+            </li>
+            <li>
+              <span class="checklist__box" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="m3.5 8.5 3 3 6-7"/></svg></span>
+              <span><strong class="font-semibold text-heading">Veterinary invoice</strong> <span class="text-muted">· itemised, see ② and ③</span></span>
+            </li>
+            <li>
+              <span class="checklist__box" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="m3.5 8.5 3 3 6-7"/></svg></span>
+              <span><strong class="font-semibold text-heading">Supporting medical records</strong> <span class="text-muted">· where required</span></span>
+            </li>
+            <li>
+              <span class="checklist__box" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="m3.5 8.5 3 3 6-7"/></svg></span>
+              <span><strong class="font-semibold text-heading">Payment or reimbursement details</strong> <span class="text-muted">· where applicable</span></span>
+            </li>
+          </ul>
+          <p class="hint mt-5">Exact requirements depend on the policy and the nature of the claim. This prototype never asks for real financial or medical information.</p>
+        </div>
+
+        <figure class="invoice lg:col-span-5 lg:col-start-8" aria-labelledby="invoice-title">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <p id="invoice-title" class="font-heading font-semibold text-heading">Sample veterinary invoice</p>
+            <span class="tag">Illustrative</span>
+          </div>
+          <div class="mt-5">
+            <div class="invoice__row"><span class="text-muted">Clinic</span><span>Example Veterinary Clinic</span></div>
+            <div class="invoice__row"><span class="text-muted">Pet</span><span class="inline-flex items-center gap-2">Juniper, dog <span class="invoice__key">1</span></span></div>
+            <div class="invoice__row"><span class="text-muted">Visit date</span><span class="inline-flex items-center gap-2">12 March <span class="invoice__key">1</span></span></div>
+          </div>
+          <p class="mt-6 flex items-center gap-2 font-heading text-small font-semibold text-heading">Itemised treatment <span class="invoice__key">2</span></p>
+          <div class="mt-1">
+            <div class="invoice__row"><span>Consultation</span><span>$85.00</span></div>
+            <div class="invoice__row"><span>X-ray</span><span>$240.00</span></div>
+            <div class="invoice__row"><span>Medication</span><span>$36.50</span></div>
+          </div>
+          <div class="mt-3 flex items-center justify-between gap-4 pt-2 font-heading font-semibold text-heading">
+            <span class="inline-flex items-center gap-2">Total <span class="invoice__key">3</span></span><span>$361.50</span>
+          </div>
+          <figcaption class="hint mt-5">Not a real document. Numbers match the checklist.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Section 4 · Claim submission & tracking prototype ------------------- -->
+    <section id="claim-prototype" class="section" aria-labelledby="claim-form-title">
+      <div class="container-site">
+        <div class="grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-8">
+          <div class="lg:col-span-7">
+            <p class="eyebrow">Try the claim flow</p>
+            <h2 id="claim-form-title" class="mt-4 max-w-[20ch]">Submit and track a sample claim.</h2>
+          </div>
+          <div class="lg:col-span-5">
+            <p class="text-muted">Use made-up details to see how submission and status tracking could work.</p>
+            <p class="notice mt-4" id="claim-prototype-note">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="6.5"/><path d="M8 7.25v4M8 4.75v.01"/></svg>
+              <span>Frontend prototype only. Nothing is sent to an insurer, uploaded or saved.</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-10 grid gap-10 border-t border-line/15 pt-10 lg:mt-12 lg:grid-cols-12 lg:gap-8">
+          <div class="lg:col-span-8">
+            <form class="claim-form" novalidate data-claim-form aria-labelledby="claim-form-title" aria-describedby="claim-prototype-note">
+              <div class="form-summary" role="alert" tabindex="-1" data-form-summary hidden>
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5v4.25M8 11.25v.01"/></svg>
+                <span data-form-summary-text></span>
+              </div>
+  
+              <div class="grid gap-6 sm:grid-cols-2">
+                <div class="field">
+                  <label class="label" for="cl-policy">Policy Reference</label>
+                  <input class="input" id="cl-policy" name="policy" type="text" autocomplete="off" spellcheck="false" placeholder="e.g. PW-123456" required maxlength="9" aria-describedby="cl-policy-hint cl-policy-error">
+                  <p class="hint" id="cl-policy-hint">Illustrative format. Use a made-up reference.</p>
+                  <p class="field-error" id="cl-policy-error" hidden></p>
+                </div>
+                <div class="field">
+                  <label class="label" for="cl-pet">Pet Name</label>
+                  <input class="input" id="cl-pet" name="pet" type="text" autocomplete="off" required maxlength="60" aria-describedby="cl-pet-error">
+                  <p class="field-error" id="cl-pet-error" hidden></p>
+                </div>
+                <div class="field">
+                  <label class="label" for="cl-date">Date of Veterinary Visit</label>
+                  <input class="input" id="cl-date" name="visitDate" type="date" required aria-describedby="cl-date-error" data-max-today>
+                  <p class="field-error" id="cl-date-error" hidden></p>
+                </div>
+                <div class="field">
+                  <label class="label" for="cl-category">Claim Category</label>
+                  <select class="select" id="cl-category" name="category" required aria-describedby="cl-category-error">
+                    <option value="">Choose a category</option>
+                    <option value="accident">Accident</option>
+                    <option value="illness">Illness</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <p class="field-error" id="cl-category-error" hidden></p>
+                </div>
+                <div class="field sm:col-span-2">
+                  <label class="label" for="cl-amount">Claim Amount <span class="label__optional">(optional)</span></label>
+                  <input class="input sm:max-w-[16rem]" id="cl-amount" name="amount" type="text" inputmode="decimal" autocomplete="off" placeholder="e.g. 361.50" maxlength="10" aria-describedby="cl-amount-hint cl-amount-error">
+                  <p class="hint" id="cl-amount-hint">Illustrative amount in dollars, numbers only.</p>
+                  <p class="field-error" id="cl-amount-error" hidden></p>
+                </div>
+                <div class="field sm:col-span-2">
+                  <label class="label" for="cl-summary">Brief Treatment Summary</label>
+                  <textarea class="textarea" id="cl-summary" name="summary" required minlength="10" maxlength="500" aria-describedby="cl-summary-hint cl-summary-error"></textarea>
+                  <p class="hint" id="cl-summary-hint">At least 10 characters. Keep it general; don’t include real medical records.</p>
+                  <p class="field-error" id="cl-summary-error" hidden></p>
+                </div>
+              </div>
+  
+              <div class="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
+                <button class="btn btn-primary" type="submit">Submit Claim</button>
+                <p class="text-small text-muted">Amount is optional; all other fields are required.</p>
+              </div>
+            </form>
+  
+            <div class="form-success" tabindex="-1" data-claim-success hidden>
+              <h3 class="heading-3">Claim simulated<span data-claim-success-pet></span>.</h3>
+              <p class="mt-3 text-muted">This is a frontend prototype: the claim has <strong class="font-semibold text-fg">not been sent to an insurer</strong>, and nothing was uploaded or saved. It has not been reviewed or approved.</p>
+              <button class="btn btn-secondary mt-6" type="button" data-claim-reset>Start Another Sample</button>
+            </div>
+          </div>
+
+          <div class="status-panel claim-flow__status lg:col-span-4" role="region" aria-labelledby="status-title">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <h3 id="status-title" class="heading-4" data-status-title>Sample claim status</h3>
+              <span class="tag" data-status-tag>Sample interface data</span>
+            </div>
+            <p class="mt-2 text-small text-muted" data-status-meta>Illustrative example only. It does not represent a real policyholder or a live insurer system.</p>
+            <ol class="tracker" role="list" data-tracker>
+              <li class="tracker__step" data-step="submitted" data-state="done">
+                <span class="tracker__dot" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="m2.5 6.5 2.25 2.25L9.5 3.5"/></svg></span>
+                <span class="tracker__label">Submitted<span class="tracker__current">Current</span></span>
+                <span class="tracker__desc">Claim details received.</span>
+                <span class="sr-only" data-state-text>Completed.</span>
+              </li>
+              <li class="tracker__step" data-step="review" data-state="current" aria-current="step">
+                <span class="tracker__dot" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="m2.5 6.5 2.25 2.25L9.5 3.5"/></svg></span>
+                <span class="tracker__label">Under Review<span class="tracker__current">Current</span></span>
+                <span class="tracker__desc">Checked against the policy terms.</span>
+                <span class="sr-only" data-state-text>Current step.</span>
+              </li>
+              <li class="tracker__step" data-step="info" data-state="upcoming" data-conditional>
+                <span class="tracker__dot" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="m2.5 6.5 2.25 2.25L9.5 3.5"/></svg></span>
+                <span class="tracker__label">More Information Needed<span class="tracker__current">Current</span></span>
+                <span class="tracker__desc">Only if extra documents are requested.</span>
+                <span class="sr-only" data-state-text>Not reached.</span>
+              </li>
+              <li class="tracker__step" data-step="decision" data-state="upcoming">
+                <span class="tracker__dot" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="m2.5 6.5 2.25 2.25L9.5 3.5"/></svg></span>
+                <span class="tracker__label">Decision Recorded<span class="tracker__current">Current</span></span>
+                <span class="tracker__desc">The outcome appears in the portal.</span>
+                <span class="sr-only" data-state-text>Not reached.</span>
+              </li>
+            </ol>
+            <p class="sr-only" aria-live="polite" data-status-live></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5 · Need more guidance? ------------------------------------- -->
+    <section id="claims-guidance" class="section-tight surface-alt" aria-labelledby="closing-title">
+      <div class="container-site grid gap-6 lg:grid-cols-12 lg:items-center lg:gap-8">
+        <h2 id="closing-title" class="max-w-[18ch] lg:col-span-7">Know What to Expect at Every Step.</h2>
+        <div class="lg:col-span-5">
+          <p class="text-muted">Review your policy terms and the documents a claim may need before you visit the vet.</p>
+          <div class="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
+            <a class="btn btn-primary" href="plans.html">Explore Plans</a>
+            <a class="link-arrow" href="login.html">
+              Open Policyholder Portal
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- partial:footer -->
+  <footer class="site-footer surface-inverse">
+    <div class="container-site">
+      <div class="grid gap-14 pb-14 pt-16 lg:grid-cols-12 lg:gap-8 lg:pb-20 lg:pt-24">
+        <div class="lg:col-span-5">
+          <a class="logo logo--lg" href="index.html" aria-label="Pawstead, go to Home 1" dir="ltr">
+            <svg class="logo__mark" viewBox="0 0 32 36" aria-hidden="true" focusable="false"><path class="logo__shield" d="M16 1.25 29.5 5.9v10.6c0 8.6-5.5 15.1-13.5 18.25C8 31.6 2.5 25.1 2.5 16.5V5.9Z"/><g class="logo__paw"><ellipse cx="9.9" cy="15.6" rx="2" ry="2.55" transform="rotate(-24 9.9 15.6)"/><ellipse cx="13.7" cy="11.5" rx="2.05" ry="2.7" transform="rotate(-8 13.7 11.5)"/><ellipse cx="18.3" cy="11.5" rx="2.05" ry="2.7" transform="rotate(8 18.3 11.5)"/><ellipse cx="22.1" cy="15.6" rx="2" ry="2.55" transform="rotate(24 22.1 15.6)"/><path d="M16 17.6c-3 0-6.3 3.5-6.3 6.5 0 2 1.5 3.2 3.3 3.2 1.2 0 2-.6 3-.6s1.8.6 3 .6c1.8 0 3.3-1.2 3.3-3.2 0-3-3.3-6.5-6.3-6.5Z"/></g></svg>
+            <span class="logo__word">Pawstead</span>
+          </a>
+          <p class="mt-5 max-w-[24rem] text-muted">Pet insurance written plainly, with cover details you can check before you choose.</p>
+          <ul class="mt-8 flex flex-wrap gap-3" role="list" aria-label="Pawstead on social media">
+            <li>
+              <a class="social-link" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram (opens in a new tab)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg>
+              </a>
+            </li>
+            <li>
+              <a class="social-link" href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook (opens in a new tab)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+              </a>
+            </li>
+            <li>
+              <a class="social-link" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube (opens in a new tab)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></svg>
+              </a>
+            </li>
+            <li>
+              <a class="social-link" href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn (opens in a new tab)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <nav class="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3 lg:col-span-6 lg:col-start-7" aria-label="Footer">
+          <div>
+            <h2 class="footer-title">Pawstead</h2>
+            <ul class="mt-4 space-y-1" role="list">
+              <li><a class="footer-link" href="index.html" data-nav="home-1">Home 1</a></li>
+              <li><a class="footer-link" href="home-2.html" data-nav="home-2">Home 2</a></li>
+              <li><a class="footer-link" href="about.html" data-nav="about">About</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2 class="footer-title">Coverage &amp; claims</h2>
+            <ul class="mt-4 space-y-1" role="list">
+              <li><a class="footer-link" href="plans.html" data-nav="plans">Compare plans</a></li>
+              <li><a class="footer-link" href="claims.html" data-nav="claims" aria-current="page">Make a claim</a></li>
+              <li><a class="footer-link" href="login.html" data-nav="login">Policyholder login</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2 class="footer-title">Support</h2>
+            <ul class="mt-4 space-y-1" role="list">
+              <li><a class="footer-link" href="contact.html" data-nav="contact">Contact support</a></li>
+              <li><a class="footer-link" href="dashboard.html" data-nav="dashboard">Manage your policy</a></li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+
+      <div class="flex flex-col gap-3 border-t border-line/15 py-7 text-small text-muted md:flex-row md:items-center md:justify-between md:gap-8">
+        <p>&copy; <span data-year>2026</span> Pawstead. All rights reserved.</p>
+        <p>Cover is subject to policy terms, exclusions and waiting periods.</p>
+      </div>
+    </div>
+  </footer>
+  <!-- /partial:footer -->
+</body>
+</html>

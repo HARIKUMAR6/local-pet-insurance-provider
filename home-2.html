@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Compare pet insurance cover — Pawstead</title>
+  <meta name="description" content="Compare Pawstead's illustrative coverage levels side by side, see what pet insurance can help with, and learn how claims work.">
+  <link rel="preload" as="image" href="assets/images/home-2/hero-friends-1600.webp" imagesrcset="assets/images/home-2/hero-friends-960.webp 960w, assets/images/home-2/hero-friends-1600.webp 1600w" imagesizes="(min-width: 77.5rem) 48rem, (min-width: 64rem) 66vw, 100vw">
+  <!-- partial:head -->
+  <meta name="theme-color" content="#183C35">
+  <script>
+    /* Apply saved theme/direction before first paint (no flash). Falls back to the OS colour scheme. */
+    (function () {
+      var root = document.documentElement, theme, dir;
+      try { theme = localStorage.getItem('pawstead-theme'); dir = localStorage.getItem('pawstead-dir'); } catch (e) {}
+      if (theme !== 'light' && theme !== 'dark') {
+        theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      root.setAttribute('data-theme', theme);
+      root.setAttribute('dir', dir === 'rtl' ? 'rtl' : 'ltr');
+    })();
+  </script>
+  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..700&family=Inter:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script src="assets/js/main.js" defer></script>
+  <!-- /partial:head -->
+</head>
+<body data-page="home-2">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- partial:header -->
+  <header class="site-header sticky top-0 z-40 border-b border-line/10 bg-bg">
+    <!-- Three-column grid (1fr auto 1fr) keeps the primary nav centred on the header itself, not in the leftover space. -->
+    <div class="site-header__bar container-site grid h-header grid-cols-[1fr_auto] items-center gap-4 xl:grid-cols-[1fr_auto_1fr] xl:gap-5">
+      <a class="logo justify-self-start" href="index.html" aria-label="Pawstead, go to Home 1" dir="ltr">
+        <svg class="logo__mark" viewBox="0 0 32 36" aria-hidden="true" focusable="false"><path class="logo__shield" d="M16 1.25 29.5 5.9v10.6c0 8.6-5.5 15.1-13.5 18.25C8 31.6 2.5 25.1 2.5 16.5V5.9Z"/><g class="logo__paw"><ellipse cx="9.9" cy="15.6" rx="2" ry="2.55" transform="rotate(-24 9.9 15.6)"/><ellipse cx="13.7" cy="11.5" rx="2.05" ry="2.7" transform="rotate(-8 13.7 11.5)"/><ellipse cx="18.3" cy="11.5" rx="2.05" ry="2.7" transform="rotate(8 18.3 11.5)"/><ellipse cx="22.1" cy="15.6" rx="2" ry="2.55" transform="rotate(24 22.1 15.6)"/><path d="M16 17.6c-3 0-6.3 3.5-6.3 6.5 0 2 1.5 3.2 3.3 3.2 1.2 0 2-.6 3-.6s1.8.6 3 .6c1.8 0 3.3-1.2 3.3-3.2 0-3-3.3-6.5-6.3-6.5Z"/></g></svg>
+        <span class="logo__word">Pawstead</span>
+      </a>
+
+      <nav class="site-nav hidden xl:block" aria-label="Primary">
+        <ul class="flex items-center" role="list">
+          <li class="relative" data-dropdown>
+            <button type="button" class="nav-link" aria-expanded="false" aria-controls="nav-home-menu" data-dropdown-toggle data-nav-group="home" data-active="true">
+              Home
+              <svg class="nav-link__chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m4 6 4 4 4-4"/></svg>
+            </button>
+            <ul id="nav-home-menu" class="dropdown" role="list" data-dropdown-panel hidden>
+              <li><a class="dropdown__link" href="index.html" data-nav="home-1">Home 1</a></li>
+              <li><a class="dropdown__link" href="home-2.html" data-nav="home-2" aria-current="page">Home 2</a></li>
+            </ul>
+          </li>
+          <li><a class="nav-link" href="about.html" data-nav="about">About</a></li>
+          <li><a class="nav-link" href="plans.html" data-nav="plans">Plans</a></li>
+          <li><a class="nav-link" href="claims.html" data-nav="claims">Claims</a></li>
+          <li><a class="nav-link" href="contact.html" data-nav="contact">Contact</a></li>
+          <li><a class="nav-link" href="dashboard.html" data-nav="dashboard">Dashboard</a></li>
+          <li><a class="nav-link" href="login.html" data-nav="login">Login</a></li>
+        </ul>
+      </nav>
+
+      <div class="flex items-center gap-3 justify-self-end xl:gap-2">
+        <div class="hidden items-center gap-2 xl:flex">
+          <div class="dir-switch" role="group" aria-label="Text direction">
+            <button type="button" class="dir-switch__btn" data-dir-option="ltr" aria-pressed="true">LTR</button>
+            <button type="button" class="dir-switch__btn" data-dir-option="rtl" aria-pressed="false">RTL</button>
+          </div>
+          <button type="button" class="icon-btn" data-theme-toggle aria-label="Switch to dark theme">
+            <svg class="theme-icon--to-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z"/></svg>
+            <svg class="theme-icon--to-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/></svg>
+          </button>
+        </div>
+        <!-- Desktop only: below xl the drawer carries the same CTA in its footer. -->
+        <a class="btn btn-primary hidden xl:inline-flex" href="plans.html">Explore Plans</a>
+        <button type="button" class="icon-btn xl:hidden" aria-label="Open menu" aria-expanded="false" aria-controls="site-drawer" data-drawer-open>
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M3 5.5h14M3 10h14M3 14.5h14"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="drawer-backdrop" data-drawer-backdrop hidden></div>
+
+    <div id="site-drawer" class="drawer" role="dialog" aria-modal="true" aria-label="Site menu" data-drawer hidden>
+      <div class="drawer__head">
+        <a class="logo" href="index.html" aria-label="Pawstead, go to Home 1" dir="ltr">
+          <svg class="logo__mark" viewBox="0 0 32 36" aria-hidden="true" focusable="false"><path class="logo__shield" d="M16 1.25 29.5 5.9v10.6c0 8.6-5.5 15.1-13.5 18.25C8 31.6 2.5 25.1 2.5 16.5V5.9Z"/><g class="logo__paw"><ellipse cx="9.9" cy="15.6" rx="2" ry="2.55" transform="rotate(-24 9.9 15.6)"/><ellipse cx="13.7" cy="11.5" rx="2.05" ry="2.7" transform="rotate(-8 13.7 11.5)"/><ellipse cx="18.3" cy="11.5" rx="2.05" ry="2.7" transform="rotate(8 18.3 11.5)"/><ellipse cx="22.1" cy="15.6" rx="2" ry="2.55" transform="rotate(24 22.1 15.6)"/><path d="M16 17.6c-3 0-6.3 3.5-6.3 6.5 0 2 1.5 3.2 3.3 3.2 1.2 0 2-.6 3-.6s1.8.6 3 .6c1.8 0 3.3-1.2 3.3-3.2 0-3-3.3-6.5-6.3-6.5Z"/></g></svg>
+          <span class="logo__word">Pawstead</span>
+        </a>
+        <button type="button" class="icon-btn" aria-label="Close menu" data-drawer-close>
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="m5 5 10 10M15 5 5 15"/></svg>
+        </button>
+      </div>
+
+      <nav class="drawer__nav" aria-label="Mobile">
+        <ul role="list">
+          <li class="drawer__item">
+            <button type="button" class="drawer__link" aria-expanded="false" aria-controls="drawer-home-menu" data-disclosure-toggle data-nav-group="home" data-active="true">
+              Home
+              <svg class="nav-link__chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m4 6 4 4 4-4"/></svg>
+            </button>
+            <ul id="drawer-home-menu" class="drawer__sub" role="list" hidden>
+              <li><a class="drawer__sublink" href="index.html" data-nav="home-1">Home 1</a></li>
+              <li><a class="drawer__sublink" href="home-2.html" data-nav="home-2" aria-current="page">Home 2</a></li>
+            </ul>
+          </li>
+          <li class="drawer__item"><a class="drawer__link" href="about.html" data-nav="about">About</a></li>
+          <li class="drawer__item"><a class="drawer__link" href="plans.html" data-nav="plans">Plans</a></li>
+          <li class="drawer__item"><a class="drawer__link" href="claims.html" data-nav="claims">Claims</a></li>
+          <li class="drawer__item"><a class="drawer__link" href="contact.html" data-nav="contact">Contact</a></li>
+          <li class="drawer__item"><a class="drawer__link" href="dashboard.html" data-nav="dashboard">Dashboard</a></li>
+          <li class="drawer__item"><a class="drawer__link" href="login.html" data-nav="login">Login</a></li>
+        </ul>
+      </nav>
+
+      <div class="drawer__controls">
+        <div class="dir-switch dir-switch--block" role="group" aria-label="Text direction">
+          <button type="button" class="dir-switch__btn" data-dir-option="ltr" aria-pressed="true">LTR</button>
+          <button type="button" class="dir-switch__btn" data-dir-option="rtl" aria-pressed="false">RTL</button>
+        </div>
+        <button type="button" class="icon-btn icon-btn--block" data-theme-toggle aria-label="Switch to dark theme">
+          <svg class="theme-icon--to-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z"/></svg>
+          <svg class="theme-icon--to-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/></svg>
+        </button>
+      </div>
+
+      <div class="drawer__foot">
+        <a class="btn btn-primary btn-block" href="plans.html">Explore Plans</a>
+      </div>
+    </div>
+  </header>
+  <!-- /partial:header -->
+
+  <main id="main" tabindex="-1">
+
+    <!-- Section 1 · Hero: Choose protection with confidence ---------------- -->
+    <section id="choose-protection" class="overlap-hero" aria-labelledby="hero-title">
+      <div class="container-site overlap-hero__grid">
+        <figure class="overlap-hero__media">
+          <img
+            src="assets/images/home-2/hero-friends-1600.webp"
+            srcset="assets/images/home-2/hero-friends-960.webp 960w, assets/images/home-2/hero-friends-1600.webp 1600w"
+            sizes="(min-width: 77.5rem) 48rem, (min-width: 64rem) 66vw, 100vw"
+            width="1600" height="942"
+            alt="A tabby cat and a pale golden dog lie cheek to cheek on green leaves, the cat nuzzling the dog's head."
+            fetchpriority="high" decoding="async">
+        </figure>
+        <div class="overlap-hero__panel surface-inverse">
+          <p class="eyebrow">Cover for dogs and cats</p>
+          <h1 id="hero-title" class="heading-display mt-5 max-w-[12ch]">Choose protection with confidence.</h1>
+          <p class="lead mt-6 max-w-measure text-muted">See how limits, reimbursement and deductibles differ before you choose cover.</p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a class="btn btn-primary" href="#compare-coverage">Compare Plans</a>
+            <a class="btn btn-secondary" href="#how-claims-work">How Claims Work</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2 · Coverage at a glance ------------------------------------ -->
+    <section id="coverage-at-a-glance" class="section surface-alt" aria-labelledby="glance-title">
+      <div class="container-site">
+        <div class="grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-8">
+          <div class="lg:col-span-6">
+            <p class="eyebrow">Coverage at a glance</p>
+            <h2 id="glance-title" class="mt-4 max-w-[18ch]">Five things that shape every policy.</h2>
+          </div>
+          <div class="lg:col-span-5 lg:col-start-8">
+            <p class="text-muted">Knowing these terms makes any two plans easy to compare. Ranges shown are illustrative examples, not actual policy terms.</p>
+            <a class="link-arrow mt-3" href="plans.html">
+              See full plan details
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <ol class="factors" role="list">
+          <li class="factor">
+            <span class="factor__num">01</span>
+            <h3 class="heading-4 mt-3">Annual limit</h3>
+            <p class="factor__text">The most a plan pays toward eligible costs in one policy year.</p>
+            <p class="factor__range"><span>Illustrative range</span><strong>$5,000 – $20,000</strong></p>
+          </li>
+          <li class="factor">
+            <span class="factor__num">02</span>
+            <h3 class="heading-4 mt-3">Reimbursement</h3>
+            <p class="factor__text">The share of an eligible vet bill paid back after the deductible.</p>
+            <p class="factor__range"><span>Illustrative range</span><strong>70% – 90%</strong></p>
+          </li>
+          <li class="factor">
+            <span class="factor__num">03</span>
+            <h3 class="heading-4 mt-3">Deductible</h3>
+            <p class="factor__text">What you pay each policy year before reimbursement begins.</p>
+            <p class="factor__range"><span>Illustrative range</span><strong>$100 – $500</strong></p>
+          </li>
+          <li class="factor">
+            <span class="factor__num">04</span>
+            <h3 class="heading-4 mt-3">Accident &amp; illness</h3>
+            <p class="factor__text">Which unexpected injuries and illnesses are eligible under the policy terms.</p>
+            <p class="factor__range"><span>Varies by level</span><strong>Accident only to both</strong></p>
+          </li>
+          <li class="factor">
+            <span class="factor__num">05</span>
+            <h3 class="heading-4 mt-3">Optional benefits</h3>
+            <p class="factor__text">Extras such as routine wellness care, where a plan offers them.</p>
+            <p class="factor__range"><span>Illustrative</span><strong>Premium Care only</strong></p>
+          </li>
+        </ol>
+
+        <div class="calc" role="group" aria-labelledby="calc-title">
+          <p id="calc-title" class="eyebrow">Illustrative example · Complete Care figures</p>
+          <div class="calc__steps">
+            <div class="calc__item"><span class="calc__value">$1,200</span><span class="calc__caption">Eligible vet bill</span></div>
+            <span class="calc__op"><span aria-hidden="true">−</span><span class="sr-only">minus</span></span>
+            <div class="calc__item"><span class="calc__value">$250</span><span class="calc__caption">Deductible</span></div>
+            <span class="calc__op"><span aria-hidden="true">×</span><span class="sr-only">then multiplied by</span></span>
+            <div class="calc__item"><span class="calc__value">80%</span><span class="calc__caption">Reimbursement</span></div>
+            <span class="calc__op"><span aria-hidden="true">=</span><span class="sr-only">equals</span></span>
+            <div class="calc__item calc__item--result"><span class="calc__value">$760</span><span class="calc__caption">Paid back</span></div>
+          </div>
+          <p class="hint mt-5">Prototype calculation only. Actual reimbursement depends on the policy terms, eligibility and any remaining annual limit.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3 · Find the right level of protection ---------------------- -->
+    <section id="compare-coverage" class="section" aria-labelledby="compare-title">
+      <div class="container-site">
+        <div class="grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-8">
+          <div class="lg:col-span-7">
+            <p class="eyebrow">Compare coverage</p>
+            <h2 id="compare-title" class="mt-4 max-w-[20ch]">Find the right level of protection.</h2>
+          </div>
+          <p class="notice lg:col-span-5 lg:col-start-8" id="ledger-note">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="6.5"/><path d="M8 7.25v4M8 4.75v.01"/></svg>
+            <span><strong class="font-semibold text-fg">Illustrative prototype data.</strong> Figures and benefits are examples only, not actual policy terms or prices.</span>
+          </p>
+        </div>
+
+        <div class="ledger" aria-describedby="ledger-note">
+          <div class="ledger__head" aria-hidden="true">
+            <span>Plan</span>
+            <span class="ledger__head-figures"><span>Annual limit</span><span>Reimbursement</span><span>Deductible</span></span>
+            <span>Highlights</span>
+            <span></span>
+          </div>
+
+          <article class="ledger__row" aria-labelledby="plan-essential">
+            <div>
+              <span class="level" aria-hidden="true"><i class="is-on"></i><i></i><i></i></span>
+              <h3 id="plan-essential" class="heading-3">Essential Care</h3>
+              <p class="ledger__desc">Accident cover for unexpected injuries.</p>
+            </div>
+            <dl class="ledger__figures">
+              <div><dt>Annual limit</dt><dd>$5,000</dd></div>
+              <div><dt>Reimbursement</dt><dd>70%</dd></div>
+              <div><dt>Deductible</dt><dd>$500</dd></div>
+            </dl>
+            <ul class="ledger__highlights" role="list" aria-label="Essential Care highlights">
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m4.5 10.5 3.5 3.5 7.5-8"/></svg>Emergency care &amp; surgery</li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m4.5 10.5 3.5 3.5 7.5-8"/></svg>Injury-related treatment</li>
+            </ul>
+            <div class="ledger__action"><a class="btn btn-secondary" href="plans.html" aria-label="View Essential Care plan">View Plan</a></div>
+          </article>
+
+          <article class="ledger__row" aria-labelledby="plan-complete">
+            <div>
+              <span class="level" aria-hidden="true"><i class="is-on"></i><i class="is-on"></i><i></i></span>
+              <h3 id="plan-complete" class="heading-3">Complete Care</h3>
+              <p class="ledger__desc">Accident and illness cover for everyday peace of mind.</p>
+            </div>
+            <dl class="ledger__figures">
+              <div><dt>Annual limit</dt><dd>$10,000</dd></div>
+              <div><dt>Reimbursement</dt><dd>80%</dd></div>
+              <div><dt>Deductible</dt><dd>$250</dd></div>
+            </dl>
+            <ul class="ledger__highlights" role="list" aria-label="Complete Care highlights">
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m4.5 10.5 3.5 3.5 7.5-8"/></svg>Everything in Essential Care</li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m4.5 10.5 3.5 3.5 7.5-8"/></svg>Illness diagnostics &amp; treatment</li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m4.5 10.5 3.5 3.5 7.5-8"/></svg>Prescription medication</li>
+            </ul>
+            <div class="ledger__action"><a class="btn btn-secondary" href="plans.html" aria-label="View Complete Care plan">View Plan</a></div>
+          </article>
+
+          <article class="ledger__row" aria-labelledby="plan-premium">
+            <div>
+              <span class="level" aria-hidden="true"><i class="is-on"></i><i class="is-on"></i><i class="is-on"></i></span>
+              <h3 id="plan-premium" class="heading-3">Premium Care</h3>
+              <p class="ledger__desc">Our broadest cover, adding routine wellness care.</p>
+            </div>
+            <dl class="ledger__figures">
+              <div><dt>Annual limit</dt><dd>$20,000</dd></div>
+              <div><dt>Reimbursement</dt><dd>90%</dd></div>
+              <div><dt>Deductible</dt><dd>$100</dd></div>
+            </dl>
+            <ul class="ledger__highlights" role="list" aria-label="Premium Care highlights">
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m4.5 10.5 3.5 3.5 7.5-8"/></svg>Everything in Complete Care</li>
+              <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m4.5 10.5 3.5 3.5 7.5-8"/></svg>Routine wellness visits</li>
+            </ul>
+            <div class="ledger__action"><a class="btn btn-secondary" href="plans.html" aria-label="View Premium Care plan">View Plan</a></div>
+          </article>
+        </div>
+
+        <a class="link-arrow mt-6" href="plans.html">
+          Compare every plan detail
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- Section 4 · What your coverage can help with ------------------------ -->
+    <section id="coverage-benefits" class="section pt-0" aria-labelledby="benefits-title">
+      <div class="container-site">
+        <hr class="rule mb-12 lg:mb-16">
+        <div class="grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-8">
+          <div class="lg:col-span-6">
+            <p class="eyebrow">What cover can help with</p>
+            <h2 id="benefits-title" class="mt-4 max-w-[18ch]">What your coverage can help with.</h2>
+          </div>
+          <p class="text-muted lg:col-span-5 lg:col-start-8">Eligible costs depend on your plan level and its terms, including exclusions and waiting periods. Not every treatment is covered.</p>
+        </div>
+
+        <div class="benefits">
+          <article class="benefits__lead" aria-labelledby="benefit-accident">
+            <figure class="media aspect-[16/10] rounded">
+              <img
+                src="assets/images/home-2/accident-beach-1200.webp"
+                srcset="assets/images/home-2/accident-beach-720.webp 720w, assets/images/home-2/accident-beach-1200.webp 1200w"
+                sizes="(min-width: 64rem) 55vw, 100vw"
+                width="1200" height="800" loading="lazy" decoding="async"
+                style="object-position: 50% 60%"
+                alt="A small white dog runs across the sand at the edge of the sea.">
+            </figure>
+            <p class="benefit__tag mt-6">All three levels</p>
+            <h3 id="benefit-accident" class="heading-3 mt-2">Accidents and injuries</h3>
+            <p class="mt-2 max-w-measure text-muted">Eligible treatment after the unexpected, such as cuts, sprains, swallowed objects or broken bones.</p>
+          </article>
+
+          <div class="benefits__side">
+            <article class="benefit-row" aria-labelledby="benefit-illness">
+              <figure class="media aspect-square rounded">
+                <img
+                  src="assets/images/home-2/illness-vet-800.webp"
+                  srcset="assets/images/home-2/illness-vet-480.webp 480w, assets/images/home-2/illness-vet-800.webp 800w"
+                  sizes="(min-width: 64rem) 18vw, 11rem"
+                  width="800" height="1200" loading="lazy" decoding="async"
+                  style="object-position: 50% 62%"
+                  alt="A veterinarian in grey scrubs listens to a puppy's chest with a stethoscope.">
+              </figure>
+              <div>
+                <p class="benefit__tag">Complete &amp; Premium Care</p>
+                <h3 id="benefit-illness" class="heading-4 mt-2">Illness and veterinary treatment</h3>
+                <p class="mt-2 text-small text-muted">Eligible diagnostics, prescriptions and care for illnesses that start after cover begins.</p>
+              </div>
+            </article>
+            <article class="benefit-row" aria-labelledby="benefit-wellness">
+              <figure class="media aspect-square rounded">
+                <img
+                  src="assets/images/home-2/wellness-beagle-800.webp"
+                  srcset="assets/images/home-2/wellness-beagle-480.webp 480w, assets/images/home-2/wellness-beagle-800.webp 800w"
+                  sizes="(min-width: 64rem) 18vw, 11rem"
+                  width="800" height="533" loading="lazy" decoding="async"
+                  style="object-position: 38% 50%"
+                  alt="A healthy beagle mix in a green harness stands alert on a lawn.">
+              </figure>
+              <div>
+                <p class="benefit__tag">Premium Care, where offered</p>
+                <h3 id="benefit-wellness" class="heading-4 mt-2">Wellness and preventive care</h3>
+                <p class="mt-2 text-small text-muted">Routine check-ups and preventive care, when the plan includes these benefits.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5 · How claims work ----------------------------------------- -->
+    <section id="how-claims-work" class="section surface-inverse" aria-labelledby="claims-title">
+      <div class="container-site">
+        <div class="grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-8">
+          <div class="lg:col-span-7">
+            <p class="eyebrow">How claims work</p>
+            <h2 id="claims-title" class="mt-4 max-w-[20ch]">Three steps, and you can follow every one.</h2>
+          </div>
+          <div class="lg:col-span-4 lg:col-start-9 lg:justify-self-end">
+            <a class="btn btn-secondary" href="claims.html">Learn About Claims</a>
+          </div>
+        </div>
+
+        <ol class="process" role="list">
+          <li class="process__step">
+            <span class="process__num" aria-hidden="true">01</span>
+            <h3 class="heading-4 mt-5"><span class="sr-only">Step 1: </span>Visit the veterinarian</h3>
+            <p class="mt-2 max-w-[22rem] text-small text-muted">Get the care your pet needs from a licensed vet and keep the itemised invoice.</p>
+          </li>
+          <li class="process__step">
+            <span class="process__num" aria-hidden="true">02</span>
+            <h3 class="heading-4 mt-5"><span class="sr-only">Step 2: </span>Submit expenses and documents</h3>
+            <p class="mt-2 max-w-[22rem] text-small text-muted">Send eligible costs online with the invoice and any records requested.</p>
+          </li>
+          <li class="process__step">
+            <span class="process__num" aria-hidden="true">03</span>
+            <h3 class="heading-4 mt-5"><span class="sr-only">Step 3: </span>Track the review status</h3>
+            <p class="mt-2 max-w-[22rem] text-small text-muted">See where your claim is in the review from your dashboard.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Section 6 · The Pawstead difference --------------------------------- -->
+    <section id="pawstead-difference" class="section" aria-labelledby="difference-title">
+      <div class="container-site grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-8">
+        <figure class="media aspect-[4/3] rounded lg:col-span-7">
+          <img
+            src="assets/images/home-2/owner-canoe-1280.webp"
+            srcset="assets/images/home-2/owner-canoe-720.webp 720w, assets/images/home-2/owner-canoe-1280.webp 1280w"
+            sizes="(min-width: 64rem) 55vw, 100vw"
+            width="1280" height="853" loading="lazy" decoding="async"
+            style="object-position: 50% 70%"
+            alt="A black Labrador sits in the front of a canoe, looking back toward the camera, while its owner paddles across a misty lake.">
+        </figure>
+        <div class="lg:col-span-4 lg:col-start-9">
+          <p class="eyebrow">The Pawstead difference</p>
+          <h2 id="difference-title" class="mt-4">Cover that stays clear after you buy it.</h2>
+          <ol class="principles" role="list">
+            <li>
+              <span class="principles__num" aria-hidden="true">01</span>
+              <div>
+                <h3 class="heading-4">Understandable information</h3>
+                <p class="mt-1 text-small text-muted">Limits, exclusions and costs in plain language.</p>
+              </div>
+            </li>
+            <li>
+              <span class="principles__num" aria-hidden="true">02</span>
+              <div>
+                <h3 class="heading-4">Straightforward claims</h3>
+                <p class="mt-1 text-small text-muted">One online form for expenses and documents.</p>
+              </div>
+            </li>
+            <li>
+              <span class="principles__num" aria-hidden="true">03</span>
+              <div>
+                <h3 class="heading-4">Everything in one account</h3>
+                <p class="mt-1 text-small text-muted">Policy details and claim status, whenever you need them.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 7 · Final coverage CTA -------------------------------------- -->
+    <section id="explore-coverage" class="section-tight surface-alt" aria-labelledby="explore-title">
+      <div class="container-site grid gap-6 lg:grid-cols-12 lg:items-center lg:gap-8">
+        <h2 id="explore-title" class="max-w-[18ch] lg:col-span-7">Ready to choose cover for your pet?</h2>
+        <div class="lg:col-span-5">
+          <p class="text-muted">Explore each plan level in full and pick the protection that fits.</p>
+          <a class="btn btn-primary mt-6" href="plans.html">Explore Plans</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- partial:footer -->
+  <footer class="site-footer surface-inverse">
+    <div class="container-site">
+      <div class="grid gap-14 pb-14 pt-16 lg:grid-cols-12 lg:gap-8 lg:pb-20 lg:pt-24">
+        <div class="lg:col-span-5">
+          <a class="logo logo--lg" href="index.html" aria-label="Pawstead, go to Home 1" dir="ltr">
+            <svg class="logo__mark" viewBox="0 0 32 36" aria-hidden="true" focusable="false"><path class="logo__shield" d="M16 1.25 29.5 5.9v10.6c0 8.6-5.5 15.1-13.5 18.25C8 31.6 2.5 25.1 2.5 16.5V5.9Z"/><g class="logo__paw"><ellipse cx="9.9" cy="15.6" rx="2" ry="2.55" transform="rotate(-24 9.9 15.6)"/><ellipse cx="13.7" cy="11.5" rx="2.05" ry="2.7" transform="rotate(-8 13.7 11.5)"/><ellipse cx="18.3" cy="11.5" rx="2.05" ry="2.7" transform="rotate(8 18.3 11.5)"/><ellipse cx="22.1" cy="15.6" rx="2" ry="2.55" transform="rotate(24 22.1 15.6)"/><path d="M16 17.6c-3 0-6.3 3.5-6.3 6.5 0 2 1.5 3.2 3.3 3.2 1.2 0 2-.6 3-.6s1.8.6 3 .6c1.8 0 3.3-1.2 3.3-3.2 0-3-3.3-6.5-6.3-6.5Z"/></g></svg>
+            <span class="logo__word">Pawstead</span>
+          </a>
+          <p class="mt-5 max-w-[24rem] text-muted">Pet insurance written plainly, with cover details you can check before you choose.</p>
+          <ul class="mt-8 flex flex-wrap gap-3" role="list" aria-label="Pawstead on social media">
+            <li>
+              <a class="social-link" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram (opens in a new tab)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg>
+              </a>
+            </li>
+            <li>
+              <a class="social-link" href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook (opens in a new tab)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+              </a>
+            </li>
+            <li>
+              <a class="social-link" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube (opens in a new tab)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></svg>
+              </a>
+            </li>
+            <li>
+              <a class="social-link" href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn (opens in a new tab)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <nav class="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3 lg:col-span-6 lg:col-start-7" aria-label="Footer">
+          <div>
+            <h2 class="footer-title">Pawstead</h2>
+            <ul class="mt-4 space-y-1" role="list">
+              <li><a class="footer-link" href="index.html" data-nav="home-1">Home 1</a></li>
+              <li><a class="footer-link" href="home-2.html" data-nav="home-2" aria-current="page">Home 2</a></li>
+              <li><a class="footer-link" href="about.html" data-nav="about">About</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2 class="footer-title">Coverage &amp; claims</h2>
+            <ul class="mt-4 space-y-1" role="list">
+              <li><a class="footer-link" href="plans.html" data-nav="plans">Compare plans</a></li>
+              <li><a class="footer-link" href="claims.html" data-nav="claims">Make a claim</a></li>
+              <li><a class="footer-link" href="login.html" data-nav="login">Policyholder login</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2 class="footer-title">Support</h2>
+            <ul class="mt-4 space-y-1" role="list">
+              <li><a class="footer-link" href="contact.html" data-nav="contact">Contact support</a></li>
+              <li><a class="footer-link" href="dashboard.html" data-nav="dashboard">Manage your policy</a></li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+
+      <div class="flex flex-col gap-3 border-t border-line/15 py-7 text-small text-muted md:flex-row md:items-center md:justify-between md:gap-8">
+        <p>&copy; <span data-year>2026</span> Pawstead. All rights reserved.</p>
+        <p>Cover is subject to policy terms, exclusions and waiting periods.</p>
+      </div>
+    </div>
+  </footer>
+  <!-- /partial:footer -->
+</body>
+</html>

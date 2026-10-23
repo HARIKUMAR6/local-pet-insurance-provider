@@ -1,0 +1,2417 @@
+/* ==========================================================================
+   Pawstead — design system source
+   Compiled to assets/css/styles.css by the Tailwind CLI (npm run build:css).
+   ========================================================================== */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --------------------------------------------------------------------------
+   1. Tokens
+   Brand palette (fixed) + semantic roles (themed). Components and markup use
+   only the semantic roles, so both themes stay readable by construction.
+   -------------------------------------------------------------------------- */
+@layer base {
+  :root {
+    /* Brand palette — exact values, RGB channels for alpha support. */
+    --pine: 24 60 53;            /* Deep Pine        #183C35 */
+    --porcelain: 246 242 233;    /* Warm Porcelain   #F6F2E9 */
+    --sage: 216 225 212;         /* Soft Sage        #D8E1D4 */
+    --terracotta: 198 107 78;    /* Burnt Terracotta #C66B4E */
+    --ink: 41 45 43;             /* Charcoal Ink     #292D2B */
+
+    /* Layout rhythm */
+    --gutter: clamp(1.25rem, 0.8rem + 2.2vw, 2.5rem);
+    --section-y: clamp(4rem, 2.8rem + 4.5vw, 7.5rem);
+    --header-h: 4.5rem;
+  }
+
+  /* Light theme (default) ------------------------------------------------ */
+  :root,
+  [data-theme='light'] {
+    --c-bg: var(--porcelain);
+    --c-surface: var(--sage);              /* restrained supporting band */
+    --c-surface-soft: 237 233 222;         /* #EDE9DE  table header, subtle fills */
+    --c-raised: 251 248 241;               /* #FBF8F1  dropdowns, drawer */
+    --c-field: 252 250 245;                /* #FCFAF5  form fields */
+    --c-inverse: var(--pine);              /* dark brand band */
+    --c-footer: var(--pine);
+
+    --c-text: var(--ink);                  /* 12.6:1 on porcelain */
+    --c-heading: var(--pine);              /* 10.8:1 */
+    --c-muted: 91 96 92;                   /* #5B605C  6.0:1 */
+    /* #C66B4E is only ~3.4:1 on porcelain, so small accent text and CTA
+       fills use a deepened terracotta (4.7:1 with porcelain). */
+    --c-accent-text: 168 84 58;            /* #A8543A */
+    --c-accent-text-alt: 140 68 46;        /* #8C442E  accent text on sage (5.2:1) */
+    --c-accent: var(--terracotta);         /* decorative marks only */
+    --c-line: var(--ink);                  /* always used with alpha */
+
+    --c-cta: 168 84 58;                    /* #A8543A */
+    --c-cta-hover: 140 68 46;              /* #8C442E */
+    --c-cta-text: var(--porcelain);
+    --c-secondary: var(--pine);
+    --c-secondary-fg: var(--porcelain);
+
+    --c-positive: var(--pine);
+    --c-positive-bg: var(--sage);
+    --c-overlay: 16 26 23;
+    --c-shadow: var(--ink);
+    --c-focus: var(--pine);
+
+    --c-logo-shield: var(--pine);
+    --c-logo-paw: var(--porcelain);
+
+    color-scheme: light;
+  }
+
+  /* Dark theme — tuned pine-blacks, never pure black ------------------- */
+  [data-theme='dark'] {
+    --c-bg: 16 26 23;                      /* #101A17 */
+    --c-surface: 24 37 33;                 /* #182521 */
+    --c-surface-soft: 22 34 30;            /* #16221E */
+    --c-raised: 27 41 36;                  /* #1B2924 */
+    --c-field: 21 33 29;                   /* #15211D */
+    --c-inverse: var(--pine);              /* lifts above the dark page */
+    --c-footer: 11 19 17;                  /* #0B1311 */
+
+    --c-text: 226 222 211;                 /* #E2DED3  12.9:1 on bg */
+    --c-heading: 243 238 227;              /* #F3EEE3 */
+    --c-muted: 169 177 169;                /* #A9B1A9  7.9:1 */
+    --c-accent-text: 230 150 122;          /* #E6967A  7.6:1 */
+    --c-accent-text-alt: 230 150 122;
+    --c-accent: 217 128 95;                /* #D9805F */
+    --c-line: 233 228 216;
+
+    --c-cta: 217 128 95;                   /* #D9805F with dark text 6.1:1 */
+    --c-cta-hover: 229 147 118;            /* #E59376 */
+    --c-cta-text: 16 26 23;
+    --c-secondary: 233 228 216;
+    --c-secondary-fg: 16 26 23;
+
+    --c-positive: 159 194 174;             /* #9FC2AE */
+    --c-positive-bg: 31 52 45;
+    --c-overlay: 8 14 12;
+    --c-shadow: 0 0 0;
+    --c-focus: var(--sage);
+
+    --c-logo-shield: var(--sage);
+    --c-logo-paw: 16 26 23;
+
+    color-scheme: dark;
+  }
+
+  @media (min-width: 64rem) {
+    :root {
+      --header-h: 5rem;
+    }
+  }
+
+  /* ------------------------------------------------------------------------
+     2. Base elements
+     ------------------------------------------------------------------------ */
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-padding-top: calc(var(--header-h) + 1rem);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    @apply flex min-h-screen flex-col bg-bg font-sans text-body text-fg antialiased;
+    overflow-x: clip;
+    text-rendering: optimizeLegibility;
+  }
+
+  main {
+    @apply flex-1;
+  }
+
+  main:focus {
+    outline: none;
+  }
+
+  /* The hidden attribute always wins over component display values. */
+  [hidden] {
+    display: none !important;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading text-heading;
+    text-wrap: balance;
+    overflow-wrap: break-word;
+  }
+
+  h1 { @apply text-h1 font-medium; }
+  h2 { @apply text-h2 font-medium; }
+  h3 { @apply text-h3 font-semibold; }
+  h4, h5, h6 { @apply text-h4 font-semibold; }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  img {
+    @apply h-auto max-w-full;
+  }
+
+  ::selection {
+    background: rgb(var(--c-heading));
+    color: rgb(var(--c-bg));
+  }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--c-focus));
+    outline-offset: 3px;
+  }
+
+  svg {
+    flex-shrink: 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. Components
+   Direction-aware: logical properties (start/end, inline) throughout, so the
+   layout mirrors correctly under dir="rtl".
+   -------------------------------------------------------------------------- */
+@layer components {
+  /* Layout ---------------------------------------------------------------- */
+  .container-site {
+    width: 100%;
+    max-width: theme('maxWidth.site');
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  .section       { padding-block: var(--section-y); }
+  .section-tight { padding-block: calc(var(--section-y) * 0.6); }
+
+  .surface-alt {
+    --c-accent-text: var(--c-accent-text-alt);
+    @apply bg-surface;
+  }
+
+  /* Dark brand band. Re-points the semantic roles so every component inside
+     (headings, text, links, buttons, focus, logo) adapts automatically. */
+  .surface-inverse {
+    --c-text: 233 230 220;
+    --c-heading: var(--porcelain);
+    --c-muted: 196 205 196;                /* #C4CDC4  7.2:1 on pine */
+    --c-accent-text: 236 166 140;          /* #ECA68C */
+    --c-line: var(--porcelain);
+    --c-focus: var(--sage);
+    --c-secondary: var(--porcelain);
+    --c-secondary-fg: var(--pine);
+    --c-logo-shield: var(--porcelain);
+    --c-logo-paw: var(--pine);
+    @apply bg-inverse text-fg;
+  }
+
+  /* Typography ------------------------------------------------------------ */
+  .heading-display { @apply font-heading text-display font-medium; }
+  .heading-1       { @apply font-heading text-h1 font-medium; }
+  .heading-2       { @apply font-heading text-h2 font-medium; }
+  .heading-3       { @apply font-heading text-h3 font-semibold; }
+  .heading-4       { @apply font-heading text-h4 font-semibold; }
+
+  .eyebrow {
+    @apply font-heading text-eyebrow font-semibold uppercase text-accent;
+  }
+
+  .lead {
+    @apply text-lead text-fg;
+  }
+
+  /* Dividers -------------------------------------------------------------- */
+  .rule {
+    @apply border-0 border-t border-line/15;
+  }
+
+  .rule-strong {
+    @apply border-0 border-t border-heading;
+  }
+
+  /* Logo ------------------------------------------------------------------
+     Shield + paw mark with the wordmark. Colours come from logo tokens, so it
+     reads on porcelain, on pine and in dark mode. Never mirrored in RTL. */
+  .logo {
+    @apply inline-flex shrink-0 items-center gap-2.5 text-heading;
+  }
+
+  .logo__mark {
+    @apply h-9 w-8;
+  }
+
+  .logo__shield {
+    fill: rgb(var(--c-logo-shield));
+  }
+
+  .logo__paw {
+    fill: rgb(var(--c-logo-paw));
+  }
+
+  .logo__word {
+    @apply font-heading text-[1.4375rem] font-semibold leading-none tracking-[-0.035em];
+  }
+
+  .logo--lg .logo__mark {
+    @apply h-11 w-10;
+  }
+
+  .logo--lg .logo__word {
+    @apply text-[1.75rem];
+  }
+
+  /* Buttons ---------------------------------------------------------------
+     One fixed height, one padding, one weight. Labels never wrap, so
+     different label lengths can't produce different heights. */
+  .btn {
+    @apply inline-flex h-12 max-w-full items-center justify-center gap-2.5 whitespace-nowrap rounded border border-transparent px-6 font-heading text-[0.9375rem] font-semibold leading-none tracking-[-0.005em] transition-[background-color,border-color,color] duration-200 ease-out;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .btn svg {
+    @apply h-[1.125rem] w-[1.125rem];
+  }
+
+  .btn-primary {
+    @apply bg-cta text-cta-fg hover:bg-cta-hover active:bg-cta-hover;
+  }
+
+  .btn-secondary {
+    @apply border-secondary bg-transparent text-secondary hover:bg-secondary hover:text-secondary-fg;
+  }
+
+  .btn-quiet {
+    @apply border-line/25 bg-transparent text-fg hover:border-line/60;
+  }
+
+  .btn-block {
+    @apply w-full;
+  }
+
+  .btn:disabled,
+  .btn[aria-disabled='true'] {
+    @apply pointer-events-none opacity-50;
+  }
+
+  /* Icon-only control (theme toggle). Same 48px height as .btn. */
+  .icon-btn {
+    @apply inline-flex h-12 w-12 shrink-0 items-center justify-center rounded border border-line/25 text-fg transition-colors duration-200 hover:border-line/60 hover:text-heading;
+  }
+
+  .icon-btn svg {
+    @apply h-5 w-5;
+  }
+
+  .icon-btn--block {
+    @apply w-full;
+  }
+
+  [data-theme='dark'] .theme-icon--to-dark,
+  :root:not([data-theme='dark']) .theme-icon--to-light {
+    display: none;
+  }
+
+  /* Direction switch — text labels only. Pressed option is filled (shape
+     cue, not just colour). */
+  .dir-switch {
+    @apply inline-flex h-12 shrink-0 items-stretch gap-1 rounded border border-line/25 p-1;
+  }
+
+  .dir-switch__btn {
+    @apply inline-flex min-w-[2.75rem] items-center justify-center rounded-sm px-2.5 font-heading text-small font-semibold tracking-[0.04em] text-muted transition-colors duration-150 hover:text-heading;
+  }
+
+  .dir-switch__btn[aria-pressed='true'] {
+    @apply bg-fg text-bg hover:text-bg;
+  }
+
+  .dir-switch--block {
+    @apply flex w-full;
+  }
+
+  .dir-switch--block .dir-switch__btn {
+    @apply flex-1;
+  }
+
+  /* Links -----------------------------------------------------------------
+     Underlines carry the interactive cue, so state never relies on colour. */
+  .link {
+    @apply font-medium text-heading underline decoration-heading/35 decoration-1 underline-offset-[0.25em] transition-[text-decoration-color] duration-200 hover:decoration-current hover:decoration-2;
+  }
+
+  .link-accent {
+    @apply text-accent decoration-accent/40;
+  }
+
+  /* Arrow link: label + arrow that flips in RTL. */
+  .link-arrow {
+    @apply inline-flex min-h-[2.75rem] items-center gap-2 font-heading text-[0.9375rem] font-semibold text-heading underline decoration-heading/30 underline-offset-[0.3em] transition-[text-decoration-color] duration-200 hover:decoration-current;
+  }
+
+  .link-arrow svg {
+    @apply h-4 w-4 transition-transform duration-200;
+  }
+
+  .link-arrow:hover svg {
+    transform: translateX(3px);
+  }
+
+  [dir='rtl'] .link-arrow svg,
+  [dir='rtl'] .flip-rtl {
+    transform: scaleX(-1);
+  }
+
+  [dir='rtl'] .link-arrow:hover svg {
+    transform: scaleX(-1) translateX(3px);
+  }
+
+  /* Primary navigation link — underline grows in on hover, stays for the
+     current page. */
+  .nav-link {
+    @apply relative inline-flex h-11 items-center gap-1.5 px-3 font-heading text-[0.9375rem] font-medium text-fg transition-colors duration-200 hover:text-heading;
+  }
+
+  .nav-link::after {
+    content: '';
+    @apply absolute inset-x-3 bottom-2 h-px scale-x-0 bg-current transition-transform duration-200 ease-out;
+  }
+
+  .nav-link:hover::after {
+    @apply scale-x-100;
+  }
+
+  .nav-link[aria-current='page'],
+  .nav-link[data-active='true'] {
+    @apply text-heading;
+  }
+
+  .nav-link[aria-current='page']::after,
+  .nav-link[data-active='true']::after {
+    @apply h-0.5 scale-x-100 bg-accent-mark;
+  }
+
+  /* Seven primary items: tighter spacing keeps the nav truly centred at xl. */
+  .site-nav .nav-link {
+    @apply px-2;
+  }
+
+  .site-nav .nav-link::after {
+    @apply inset-x-2;
+  }
+
+  .nav-link__chevron {
+    @apply h-3.5 w-3.5 transition-transform duration-200;
+  }
+
+  [aria-expanded='true'] > .nav-link__chevron {
+    @apply rotate-180;
+  }
+
+  /* Dropdown -------------------------------------------------------------- */
+  .dropdown {
+    /* -start-2 lines the item labels up with the "Home" label above them. */
+    @apply absolute -start-2 top-full z-10 mt-1 min-w-[11rem] rounded border border-line/[0.12] bg-raised p-1.5;
+    box-shadow: 0 18px 32px -24px rgb(var(--c-shadow) / 0.45);
+  }
+
+  .dropdown__link {
+    @apply relative flex h-11 items-center rounded-sm px-3.5 font-heading text-[0.9375rem] font-medium text-fg transition-colors duration-150 hover:bg-surface hover:text-heading focus-visible:outline-offset-0;
+  }
+
+  .dropdown__link[aria-current='page'] {
+    @apply text-heading;
+  }
+
+  .dropdown__link[aria-current='page']::before {
+    content: '';
+    @apply absolute bottom-3 start-0 top-3 w-0.5 bg-accent-mark;
+  }
+
+  /* Mobile drawer --------------------------------------------------------- */
+  .drawer-backdrop {
+    @apply fixed inset-0 z-[55] bg-overlay/55 opacity-0 transition-opacity duration-300 ease-out;
+  }
+
+  .drawer-backdrop[data-state='open'] {
+    @apply opacity-100;
+  }
+
+  .drawer {
+    @apply fixed bottom-0 end-0 top-0 z-[60] flex translate-x-full flex-col overflow-y-auto border-s border-line/10 bg-raised transition-transform duration-300 ease-drawer;
+    /* Always leave a strip of backdrop visible so "tap outside to close" works on phones. */
+    width: min(26rem, calc(100% - 3.5rem));
+    height: 100dvh;
+    overscroll-behavior: contain;
+  }
+
+  [dir='rtl'] .drawer {
+    @apply -translate-x-full;
+  }
+
+  .drawer[data-state='open'] {
+    @apply translate-x-0;
+  }
+
+  .drawer__head {
+    @apply flex h-header shrink-0 items-center justify-between gap-4 border-b border-line/10 px-gutter;
+  }
+
+  .drawer__nav {
+    @apply px-gutter py-4;
+  }
+
+  .drawer__item {
+    @apply border-b border-line/10;
+  }
+
+  .drawer__link {
+    @apply flex min-h-[3.5rem] w-full items-center justify-between gap-4 py-2 text-start font-heading text-[1.3125rem] font-medium tracking-[-0.015em] text-heading;
+  }
+
+  .drawer__link[aria-current='page'],
+  .drawer__link[data-active='true'] {
+    @apply underline decoration-accent-mark decoration-2 underline-offset-[0.3em];
+  }
+
+  .drawer__link .nav-link__chevron {
+    @apply h-5 w-5;
+  }
+
+  .drawer__sub {
+    @apply pb-3;
+  }
+
+  .drawer__sublink {
+    @apply flex min-h-[2.75rem] items-center border-s border-line/15 ps-4 font-heading text-[1.0625rem] font-medium text-fg;
+  }
+
+  .drawer__sublink[aria-current='page'] {
+    @apply border-s-2 border-accent-mark text-heading;
+  }
+
+  .drawer__controls {
+    @apply mt-auto flex flex-col gap-3 px-gutter pt-6;
+  }
+
+  .drawer__foot {
+    @apply shrink-0 px-gutter pb-8 pt-3;
+  }
+
+  /* Forms ----------------------------------------------------------------- */
+  .field {
+    @apply flex flex-col;
+  }
+
+  .label {
+    @apply mb-2 font-heading text-small font-semibold text-fg;
+  }
+
+  .label__optional {
+    @apply font-sans font-normal text-muted;
+  }
+
+  .input,
+  .select,
+  .textarea {
+    @apply block h-12 w-full rounded border border-line/30 bg-field px-4 font-sans text-base text-fg transition-[border-color,box-shadow] duration-150 placeholder:text-muted hover:border-line/55;
+  }
+
+  .input:focus-visible,
+  .select:focus-visible,
+  .textarea:focus-visible {
+    @apply border-heading;
+    outline-offset: 1px;
+  }
+
+  .textarea {
+    @apply h-auto min-h-[8.5rem] resize-y py-3 leading-relaxed;
+  }
+
+  .select {
+    @apply appearance-none bg-no-repeat pe-11;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23292D2B' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5.5 8 4.5 4.5L14.5 8'/%3E%3C/svg%3E");
+    background-position: right 0.875rem center;
+    background-size: 1.125rem;
+  }
+
+  [data-theme='dark'] .select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23E2DED3' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5.5 8 4.5 4.5L14.5 8'/%3E%3C/svg%3E");
+  }
+
+  [dir='rtl'] .select {
+    background-position: left 0.875rem center;
+  }
+
+  .input[aria-invalid='true'],
+  .select[aria-invalid='true'],
+  .textarea[aria-invalid='true'] {
+    @apply border-2 border-accent;
+  }
+
+  .input:disabled,
+  .select:disabled,
+  .textarea:disabled {
+    @apply cursor-not-allowed border-line/15 bg-surface-soft text-muted;
+  }
+
+  .hint {
+    @apply mt-2 text-small text-muted;
+  }
+
+  .field-error {
+    @apply mt-2 flex items-start gap-2 text-small font-medium text-accent;
+  }
+
+  .check {
+    @apply flex items-start gap-3 text-body text-fg;
+  }
+
+  .check input {
+    @apply mt-1 h-[1.125rem] w-[1.125rem] shrink-0;
+    accent-color: rgb(var(--c-heading));
+  }
+
+  /* Footer ---------------------------------------------------------------- */
+  .site-footer {
+    @apply bg-footer;
+  }
+
+  .footer-title {
+    @apply font-heading text-eyebrow font-semibold uppercase text-muted;
+  }
+
+  .footer-link {
+    @apply inline-flex min-h-[2.25rem] items-center text-fg underline decoration-transparent underline-offset-[0.3em] transition-colors duration-200 hover:text-heading hover:decoration-heading/60;
+  }
+
+  .footer-link[aria-current='page'] {
+    @apply text-heading decoration-heading/60;
+  }
+
+  .social-link {
+    @apply inline-flex h-11 w-11 items-center justify-center rounded border border-line/25 text-heading transition-colors duration-200 hover:border-line hover:bg-line/10;
+  }
+
+  .social-link svg {
+    @apply h-[1.125rem] w-[1.125rem];
+  }
+
+  /* Media ----------------------------------------------------------------- */
+  .media {
+    @apply relative overflow-hidden bg-surface-soft;
+  }
+
+  .media img {
+    @apply block h-full w-full object-cover;
+  }
+
+  /* Home 1 — hero ---------------------------------------------------------
+     Text and image share the site container: side by side from lg (and on
+     phones in landscape), stacked below that so the message and CTA are
+     read first. The image stretches to the text column's height. */
+  .hero {
+    @apply pb-14 pt-8 sm:pb-16 sm:pt-12 lg:py-14;
+  }
+
+  .hero__grid {
+    @apply grid gap-10;
+  }
+
+  .hero__media {
+    @apply relative aspect-[4/3] overflow-hidden rounded bg-surface-soft sm:aspect-[16/9];
+  }
+
+  .hero__media img {
+    @apply absolute inset-0 block h-full w-full object-cover;
+    object-position: 34% 42%;
+  }
+
+  @media (min-width: 64rem) {
+    .hero__grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: clamp(2.5rem, 4vw, 4.5rem);
+      align-items: center;
+    }
+
+    .hero__media {
+      @apply aspect-auto self-stretch;
+      min-height: 28rem;
+    }
+  }
+
+  @media (orientation: landscape) and (max-height: 30rem) and (min-width: 40rem) {
+    .hero {
+      @apply py-8;
+    }
+
+    .hero__grid {
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 2rem;
+    }
+
+    .hero__media {
+      @apply aspect-auto self-stretch;
+      min-height: 16rem;
+    }
+  }
+
+  .hero__facts {
+    @apply mt-10 grid gap-x-8 gap-y-4 border-t border-line/15 pt-6 sm:grid-cols-2;
+  }
+
+  .hero__facts dt {
+    @apply font-heading text-small font-semibold text-heading;
+  }
+
+  .hero__facts dd {
+    @apply mt-1 text-small text-muted;
+  }
+
+  /* Home 1 — plan comparison ----------------------------------------------
+     ARIA table on a CSS grid: a full comparison grid from md up; below md
+     each feature label spans the row with the three values beneath it. */
+  .compare {
+    @apply border-t-2 border-heading;
+  }
+
+  .compare__row {
+    @apply grid grid-cols-3 gap-x-3 border-b border-line/[0.12] px-3 py-4;
+  }
+
+  .compare__label {
+    @apply col-span-3 pb-2 font-heading text-small font-semibold text-muted;
+  }
+
+  .compare__corner {
+    @apply hidden;
+  }
+
+  .compare__plan {
+    @apply flex flex-col gap-1;
+  }
+
+  .compare__plan-name {
+    @apply font-heading text-base font-semibold leading-tight tracking-[-0.01em] text-heading sm:text-[1.0625rem];
+  }
+
+  .compare__plan-tag {
+    @apply text-small text-muted;
+  }
+
+  .compare__cell {
+    @apply text-small text-fg;
+  }
+
+  .compare__value {
+    @apply font-heading text-[1.0625rem] font-semibold tracking-[-0.01em] text-heading;
+  }
+
+  .compare__mark {
+    @apply inline-flex items-center gap-2;
+  }
+
+  .compare__mark svg {
+    @apply h-5 w-5;
+  }
+
+  .compare__mark--yes {
+    @apply text-positive;
+  }
+
+  .compare__mark--no {
+    @apply text-muted;
+  }
+
+  .compare__row--head {
+    @apply bg-surface-soft py-5;
+  }
+
+  .compare__row--actions {
+    @apply hidden border-b-0;
+  }
+
+  @media (min-width: 48rem) {
+    .compare__row {
+      grid-template-columns: minmax(10rem, 1.15fr) repeat(3, minmax(0, 1fr));
+      @apply items-center gap-x-6 px-4 py-[1.125rem];
+    }
+
+    .compare__row--head {
+      @apply items-end py-6;
+    }
+
+    .compare__label,
+    .compare__corner {
+      @apply col-span-1 block pb-0;
+    }
+
+    .compare__label {
+      @apply text-body font-medium text-fg;
+    }
+
+    .compare__cell {
+      @apply text-body;
+    }
+
+    .compare__plan-name {
+      @apply text-h4;
+    }
+
+    .compare__value {
+      @apply text-[1.25rem];
+    }
+
+    .compare__row--actions {
+      @apply grid py-6;
+    }
+  }
+
+  .notice {
+    @apply inline-flex items-start gap-2.5 text-small text-muted;
+  }
+
+  .notice svg {
+    @apply mt-0.5 h-4 w-4 text-accent;
+  }
+
+  /* Home 1 — reasons list ------------------------------------------------- */
+  .reasons > li {
+    @apply grid grid-cols-[auto_1fr] gap-x-5 border-t border-line/15 py-7;
+  }
+
+  .reasons > li:last-child {
+    @apply border-b;
+  }
+
+  .reasons__icon {
+    @apply inline-flex h-11 w-11 items-center justify-center rounded border border-line/20 text-heading;
+  }
+
+  .reasons__icon svg {
+    @apply h-[1.375rem] w-[1.375rem];
+  }
+
+  /* Home 1 — claim steps (editorial timeline) ----------------------------- */
+  .steps {
+    @apply grid gap-0;
+  }
+
+  .step {
+    @apply relative border-s border-line/25 pb-9 ps-7;
+  }
+
+  .step:last-child {
+    @apply pb-0;
+  }
+
+  .step::before {
+    content: '';
+    @apply absolute -start-[5px] top-1 h-[9px] w-[9px] bg-accent-mark;
+  }
+
+  .step__num {
+    @apply block font-heading text-small font-semibold tracking-[0.08em] text-accent;
+  }
+
+  @media (min-width: 48rem) {
+    .steps {
+      @apply grid-cols-3 gap-8;
+    }
+
+    .step {
+      @apply border-s-0 border-t pb-0 ps-0 pt-7;
+    }
+
+    .step::before {
+      @apply -top-[5px] start-0;
+    }
+  }
+
+  /* Home 1 — closing CTA panel ------------------------------------------- */
+  .cta-panel {
+    @apply grid overflow-hidden rounded-md lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)];
+  }
+
+  .cta-panel__body {
+    @apply flex flex-col items-start justify-center px-7 py-10 sm:px-10 sm:py-12 lg:px-14 lg:py-14;
+  }
+
+  .cta-panel__media {
+    @apply relative aspect-[16/9] lg:aspect-auto lg:min-h-full;
+  }
+
+  /* Home 1 — wide editorial image (Before you choose) --------------------- */
+  .wide-media {
+    @apply aspect-[4/3] rounded sm:aspect-[16/9] lg:aspect-[21/9];
+  }
+
+  @media (orientation: landscape) and (max-height: 30rem) {
+    .wide-media {
+      aspect-ratio: 21 / 9;
+    }
+  }
+
+  /* Home 2 — hero ---------------------------------------------------------
+     A pine text panel laid over the edge of a large photograph. From lg the
+     two share one grid row: the image fills columns 5–12, the panel
+     columns 1–6, so they overlap by two columns. Below lg the panel rises
+     over the bottom of the stacked image. Both stay inside the container. */
+  .overlap-hero {
+    @apply pb-14 pt-6 sm:pb-16 sm:pt-10 lg:py-12;
+  }
+
+  .overlap-hero__grid {
+    @apply grid;
+  }
+
+  .overlap-hero__media {
+    @apply relative aspect-[4/3] overflow-hidden rounded bg-surface-soft sm:aspect-[16/10];
+  }
+
+  .overlap-hero__media img {
+    @apply absolute inset-0 block h-full w-full object-cover;
+    object-position: 62% 40%;
+  }
+
+  .overlap-hero__panel {
+    @apply relative z-[1] -mt-12 me-4 rounded p-6 sm:-mt-20 sm:me-16 sm:p-10 md:max-w-[38rem];
+  }
+
+  @media (min-width: 64rem) {
+    .overlap-hero__grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: 2rem;
+      align-items: center;
+    }
+
+    .overlap-hero__media {
+      grid-column: 5 / -1;
+      grid-row: 1;
+      @apply aspect-auto self-stretch;
+      min-height: 30rem;
+    }
+
+    /* Block margins let the photo run above and below the panel at any
+       copy length, so the overlap always reads. */
+    .overlap-hero__panel {
+      grid-column: 1 / 7;
+      grid-row: 1;
+      @apply mx-0 my-12 max-w-none p-10 xl:p-12;
+    }
+  }
+
+  /* Phones in landscape: same overlap as desktop, with a compact panel. */
+  @media (orientation: landscape) and (max-height: 30rem) and (min-width: 40rem) {
+    .overlap-hero {
+      @apply py-6;
+    }
+
+    .overlap-hero__grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: 1rem;
+      align-items: center;
+    }
+
+    .overlap-hero__media {
+      grid-column: 6 / -1;
+      grid-row: 1;
+      @apply aspect-auto self-stretch;
+      min-height: 18rem;
+    }
+
+    .overlap-hero__panel {
+      grid-column: 1 / 8;
+      grid-row: 1;
+      @apply m-0 max-w-none p-6;
+    }
+
+    .overlap-hero .heading-display {
+      font-size: clamp(1.875rem, 1.2rem + 2.2vw, 2.5rem);
+    }
+  }
+
+  /* Home 2 — coverage factors --------------------------------------------- */
+  .factors {
+    @apply mt-12 grid border-t-2 border-heading md:grid-cols-2 md:gap-x-8 lg:grid-cols-5 lg:gap-x-0;
+  }
+
+  .factor {
+    @apply flex flex-col border-b border-line/15 py-6 lg:border-b-0 lg:border-s lg:px-5 lg:pb-1 lg:pt-6;
+  }
+
+  .factor:first-child {
+    @apply lg:border-s-0 lg:ps-0;
+  }
+
+  .factor:last-child {
+    @apply md:col-span-2 lg:col-span-1 lg:pe-0;
+  }
+
+  .factor__num {
+    @apply font-heading text-small font-semibold tracking-[0.08em] text-accent;
+  }
+
+  .factor__text {
+    @apply mt-2 flex-1 text-small text-muted;
+  }
+
+  .factor__range {
+    @apply mt-5 border-t border-line/15 pt-3;
+  }
+
+  .factor__range span {
+    @apply block font-heading text-eyebrow font-semibold uppercase text-muted;
+  }
+
+  .factor__range strong {
+    @apply mt-1 block font-heading text-[1.0625rem] font-semibold text-heading;
+  }
+
+  /* Worked example: an equation strip, wraps naturally on small screens. */
+  .calc {
+    @apply mt-10 rounded bg-bg p-6 sm:p-8;
+  }
+
+  .calc__steps {
+    @apply mt-5 flex flex-wrap items-center gap-x-4 gap-y-4 sm:gap-x-6;
+  }
+
+  .calc__item {
+    @apply flex flex-col;
+  }
+
+  .calc__value {
+    @apply font-heading text-h3 font-semibold text-heading;
+  }
+
+  .calc__caption {
+    @apply text-small text-muted;
+  }
+
+  .calc__op {
+    @apply font-heading text-h3 font-medium text-muted;
+  }
+
+  .calc__item--result .calc__value {
+    @apply text-accent;
+  }
+
+  /* Home 2 — plan ledger: plans as rows ------------------------------------
+     Stacked blocks below lg; a true comparison grid with a shared column
+     header from lg up. */
+  .ledger {
+    @apply mt-8 border-t-2 border-heading;
+  }
+
+  .ledger__head {
+    @apply hidden;
+  }
+
+  /* Below md: stacked. md–xl: 2×2 (plan | figures, highlights | action).
+     xl+: one comparison row per plan under a shared column header. */
+  .ledger__row {
+    @apply grid gap-6 border-b border-line/15 py-8 md:grid-cols-2 md:items-start md:gap-x-10;
+  }
+
+  .ledger__desc {
+    @apply mt-1.5 text-small text-muted;
+  }
+
+  .level {
+    @apply mb-3 flex gap-1;
+  }
+
+  .level i {
+    @apply block h-1.5 w-6 rounded-sm bg-line/20;
+  }
+
+  .level i.is-on {
+    @apply bg-accent-mark;
+  }
+
+  /* Below sm: label/value rows (labels like "Reimbursement" don't fit a
+     third of a phone width). From sm: three figure columns. */
+  .ledger__figures {
+    @apply grid gap-2 sm:grid-cols-3 sm:gap-4;
+  }
+
+  .ledger__figures > div {
+    @apply flex items-baseline justify-between gap-4 border-b border-line/10 pb-2 sm:block sm:border-b-0 sm:pb-0;
+  }
+
+  .ledger__figures dt {
+    @apply font-heading text-[0.8125rem] font-medium text-muted;
+  }
+
+  .ledger__figures dd {
+    @apply font-heading text-[1.25rem] font-semibold tracking-[-0.01em] text-heading sm:mt-1.5;
+  }
+
+  .ledger__highlights {
+    @apply space-y-2;
+  }
+
+  .ledger__highlights li {
+    @apply flex items-start gap-2.5 text-small text-fg;
+  }
+
+  .ledger__highlights svg {
+    @apply mt-0.5 h-4 w-4 shrink-0 text-positive;
+  }
+
+  .ledger__action {
+    @apply md:self-end md:justify-self-end;
+  }
+
+  .ledger__action .btn {
+    @apply w-full sm:w-auto;
+  }
+
+  @media (min-width: 80rem) {
+    .ledger__head,
+    .ledger__row {
+      grid-template-columns: minmax(0, 2.2fr) minmax(0, 3fr) minmax(0, 2.2fr) 9.5rem;
+      @apply items-center gap-x-8;
+    }
+
+    .ledger__head {
+      @apply grid border-b border-line/15 py-4 font-heading text-[0.8125rem] font-medium text-muted;
+    }
+
+    .ledger__head-figures {
+      @apply grid grid-cols-3 gap-4;
+    }
+
+    .ledger__figures dt {
+      @apply sr-only;
+    }
+
+    .ledger__figures dd {
+      @apply mt-0 text-[1.375rem];
+    }
+
+    .ledger__action {
+      @apply self-center justify-self-stretch;
+    }
+
+    .ledger__action .btn {
+      @apply w-full;
+    }
+  }
+
+  /* Home 2 — coverage benefits mosaic ------------------------------------- */
+  .benefits {
+    @apply mt-12 grid gap-10 lg:grid-cols-12 lg:gap-8;
+  }
+
+  .benefits__lead {
+    @apply lg:col-span-7;
+  }
+
+  .benefits__side {
+    @apply flex flex-col gap-8 lg:col-span-5;
+  }
+
+  .benefit-row {
+    @apply grid grid-cols-[7rem_minmax(0,1fr)] items-start gap-5 border-t border-line/15 pt-8 sm:grid-cols-[11rem_minmax(0,1fr)] lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1fr)];
+  }
+
+  .benefit-row:first-child {
+    @apply lg:border-t-0 lg:pt-0;
+  }
+
+  .benefit__tag {
+    @apply font-heading text-eyebrow font-semibold uppercase text-accent;
+  }
+
+  /* Home 2 — claims process on the pine band ------------------------------ */
+  .process {
+    @apply mt-12 grid lg:grid-cols-3;
+  }
+
+  .process__step {
+    @apply border-t border-line/20 py-7 lg:border-s lg:border-t-0 lg:px-8 lg:py-1;
+  }
+
+  .process__step:first-child {
+    @apply lg:border-s-0 lg:ps-0;
+  }
+
+  .process__step:last-child {
+    @apply pb-0 lg:pe-0;
+  }
+
+  .process__num {
+    @apply block font-heading text-[3rem] font-medium leading-none tracking-[-0.04em] text-accent lg:text-[3.5rem];
+  }
+
+  /* Home 2 — principles list ---------------------------------------------- */
+  .principles {
+    @apply mt-8 border-t border-line/15;
+  }
+
+  .principles > li {
+    @apply grid grid-cols-[2.25rem_minmax(0,1fr)] gap-x-3 border-b border-line/15 py-5;
+  }
+
+  .principles__num {
+    @apply pt-0.5 font-heading text-small font-semibold tracking-[0.08em] text-accent;
+  }
+
+  /* Inner-page hero — shared by every inner page ---------------------------
+     Height is set by tokens, not by the copy, so all inner pages share one
+     hero size at any given viewport:
+       stacked (< md): body min-height token + fixed-ratio image
+       split  (md +):  grid min-height token; the image stretches to fill it
+     Copy must fit inside the token (verified in QA) — keep it short. */
+  .page-hero {
+    --page-hero-body: 24.5rem;
+    --page-hero-h: 26rem;
+    padding-block: clamp(2rem, 1.25rem + 2.6vw, 3.75rem);
+  }
+
+  .page-hero__grid {
+    @apply grid gap-8;
+  }
+
+  .page-hero__body {
+    @apply flex flex-col justify-center;
+    min-height: var(--page-hero-body);
+  }
+
+  .page-hero__title {
+    @apply mt-4 max-w-[17ch] font-heading text-h1 font-medium;
+  }
+
+  .page-hero__lead {
+    @apply mt-5 max-w-measure text-lead text-muted;
+  }
+
+  .page-hero__actions {
+    @apply mt-8 flex flex-wrap gap-3;
+  }
+
+  .page-hero__media {
+    @apply relative aspect-[16/10] overflow-hidden rounded bg-surface-soft;
+  }
+
+  .page-hero__media img {
+    @apply absolute inset-0 h-full w-full object-cover;
+  }
+
+  @media (min-width: 40rem) {
+    .page-hero {
+      --page-hero-body: 18.5rem;
+    }
+
+    .page-hero__media {
+      aspect-ratio: 2 / 1;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .page-hero__grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      min-height: var(--page-hero-h);
+      @apply items-stretch gap-10;
+    }
+
+    .page-hero__body {
+      min-height: 0;
+    }
+
+    .page-hero__media {
+      aspect-ratio: auto;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .page-hero {
+      --page-hero-h: 27rem;
+    }
+
+    .page-hero__grid {
+      grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+      @apply gap-16;
+    }
+  }
+
+  @media (min-width: 80rem) {
+    .page-hero {
+      --page-hero-h: 28rem;
+    }
+  }
+
+  /* Phones on their side: tighter type and a shorter hero. */
+  @media (orientation: landscape) and (max-height: 30rem) {
+    .page-hero {
+      --page-hero-h: 22rem;
+      padding-block: 1.5rem;
+    }
+
+    /* Split layout even below md, so the hero stays around one screen tall. */
+    .page-hero__grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      min-height: var(--page-hero-h);
+      @apply items-stretch gap-8;
+    }
+
+    .page-hero__body {
+      min-height: 0;
+    }
+
+    .page-hero__media {
+      aspect-ratio: auto;
+    }
+
+    .page-hero__title {
+      font-size: clamp(1.75rem, 1.1rem + 2vw, 2.25rem);
+    }
+
+    .page-hero__lead {
+      @apply text-body;
+    }
+
+    .page-hero__actions {
+      @apply mt-5;
+    }
+  }
+
+  /* Inner-page hero variants -----------------------------------------------
+     Same box as .page-hero (sizes untouched); only the composition changes.
+     Overlays sit inside the media box so they never alter hero height. */
+  .page-hero--media-start .page-hero__media {
+    @apply md:order-first;
+  }
+
+  @media (min-width: 64rem) {
+    .page-hero--media-start .page-hero__grid {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    }
+  }
+
+  @media (orientation: landscape) and (max-height: 30rem) {
+    .page-hero--media-start .page-hero__media {
+      order: -1;
+    }
+  }
+
+  /* Plans hero: level legend across the base of the photo. */
+  .hero-legend {
+    @apply absolute inset-x-0 bottom-0 grid grid-cols-3 border-t border-line/15 bg-raised;
+  }
+
+  .hero-legend__item {
+    @apply flex flex-col gap-1.5 px-3 py-2.5 sm:px-4 sm:py-3.5 lg:px-5;
+  }
+
+  .hero-legend__item + .hero-legend__item {
+    @apply border-s border-line/15;
+  }
+
+  .hero-legend .level {
+    @apply mb-0;
+  }
+
+  .hero-legend__name {
+    @apply font-heading text-[0.8125rem] font-semibold leading-tight text-heading sm:text-small;
+  }
+
+  /* Claims hero: process strip anchored to the base of the photo. */
+  .hero-steps {
+    @apply absolute inset-x-0 bottom-0 grid grid-cols-3;
+  }
+
+  .hero-steps__item {
+    @apply flex items-baseline gap-2 px-3 py-3 sm:px-4 sm:py-4 lg:px-5;
+  }
+
+  .hero-steps__item + .hero-steps__item {
+    @apply border-s border-line/20;
+  }
+
+  .hero-steps__num {
+    @apply font-heading text-small font-semibold text-accent;
+  }
+
+  .hero-steps__label {
+    @apply font-heading text-[0.8125rem] font-semibold text-heading sm:text-small;
+  }
+
+  /* Plans — comparison table ------------------------------------------------
+     A real <table>. Below md it scrolls sideways inside a focusable region
+     with a sticky feature column, rather than shrinking the text. */
+  .table-scroll {
+    @apply relative overflow-x-auto rounded border border-line/15;
+    overscroll-behavior-inline: contain;
+  }
+
+  .plan-table {
+    @apply w-full border-collapse;
+    min-width: 40rem;
+  }
+
+  .plan-table th,
+  .plan-table td {
+    @apply border-b border-line/[0.12] px-4 py-4 text-start align-top sm:px-5;
+  }
+
+  .plan-table tr:last-child > * {
+    @apply border-b-0;
+  }
+
+  .plan-table thead th {
+    @apply bg-surface-soft align-bottom;
+  }
+
+  .plan-table thead th:first-child,
+  .plan-table tbody th {
+    @apply sticky start-0 z-[1];
+    width: 10rem;
+  }
+
+  .plan-table thead th:first-child {
+    @apply bg-surface-soft;
+  }
+
+  .plan-table tbody th {
+    @apply bg-bg font-heading text-small font-semibold text-fg;
+  }
+
+  .plan-table td {
+    @apply text-small text-fg sm:text-body;
+  }
+
+  .plan-table__name {
+    @apply block font-heading text-h4 font-semibold text-heading;
+  }
+
+  .plan-table__desc {
+    @apply mt-1.5 block text-small font-normal text-muted;
+  }
+
+  .plan-table__num {
+    @apply font-heading text-h4 font-semibold text-heading;
+  }
+
+  .yes,
+  .no {
+    @apply inline-flex items-center gap-2;
+  }
+
+  .yes svg,
+  .no svg {
+    @apply h-4 w-4 shrink-0;
+  }
+
+  .yes svg {
+    @apply text-positive;
+  }
+
+  .no {
+    @apply text-muted;
+  }
+
+  /* Plans — bill breakdown diagram ----------------------------------------- */
+  .bill {
+    @apply rounded bg-surface p-6 sm:p-8;
+  }
+
+  .bill__bar {
+    @apply mt-5 flex h-12 gap-1;
+  }
+
+  .bill__seg {
+    @apply h-full rounded-sm;
+  }
+
+  .bill__seg--deductible {
+    @apply border-2 border-dashed border-heading/60 bg-transparent;
+    width: 20.8%;
+  }
+
+  .bill__seg--paid {
+    @apply bg-heading;
+    width: 63.3%;
+  }
+
+  .bill__seg--share {
+    @apply bg-accent-mark;
+    width: 15.9%;
+  }
+
+  .bill__legend > li {
+    @apply grid grid-cols-[1.25rem_minmax(0,1fr)_auto] items-baseline gap-x-3 border-t border-line/15 py-3.5;
+  }
+
+  .bill__swatch {
+    @apply inline-block h-3.5 w-3.5 translate-y-0.5 rounded-sm;
+  }
+
+  .bill__value {
+    @apply font-heading text-h4 font-semibold text-heading;
+  }
+
+  /* Terms list with restrained icons. */
+  .terms > div {
+    @apply grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-4 border-t border-line/15 py-5;
+  }
+
+  .terms > div:last-child {
+    @apply border-b;
+  }
+
+  .terms__icon {
+    @apply inline-flex h-11 w-11 items-center justify-center rounded border border-line/20 text-heading;
+  }
+
+  .terms__icon svg {
+    @apply h-5 w-5;
+  }
+
+  /* Checklist (tick boxes, non-interactive). */
+  .checklist > li {
+    @apply grid grid-cols-[1.5rem_minmax(0,1fr)] gap-x-4 border-t border-line/15 py-4;
+  }
+
+  .checklist > li:last-child {
+    @apply border-b;
+  }
+
+  .checklist__box {
+    @apply mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-sm border-[1.5px] border-heading text-heading;
+  }
+
+  .checklist__box svg {
+    @apply h-3.5 w-3.5;
+  }
+
+  /* Claims — process timeline (connected nodes) ---------------------------- */
+  .timeline {
+    @apply relative mt-12 grid gap-0 md:grid-cols-3;
+  }
+
+  .timeline__step {
+    @apply relative pb-10 ps-16 md:pb-0 md:pe-8 md:ps-0;
+  }
+
+  .timeline__step:last-child {
+    @apply pb-0;
+  }
+
+  /* Vertical connector on small screens, horizontal from md. */
+  .timeline__step::before {
+    content: '';
+    @apply absolute bottom-0 start-5 top-10 w-px bg-line/25 md:end-0 md:start-10 md:top-5 md:h-px md:w-auto;
+  }
+
+  .timeline__step:last-child::before {
+    @apply hidden;
+  }
+
+  .timeline__node {
+    @apply absolute start-0 top-0 inline-flex h-10 w-10 items-center justify-center rounded-full border-[1.5px] border-heading bg-bg font-heading text-small font-semibold text-heading md:relative;
+  }
+
+  .timeline__tag {
+    @apply mt-4 inline-flex border-s-2 border-accent-mark ps-3 text-small text-muted;
+  }
+
+  /* Claims — annotated sample invoice -------------------------------------- */
+  .invoice {
+    @apply rounded border border-line/15 bg-raised p-6 text-small sm:p-8;
+  }
+
+  .invoice__row {
+    @apply flex items-baseline justify-between gap-4 border-b border-line/10 py-2.5;
+  }
+
+  .invoice__key {
+    @apply inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-heading font-heading text-[0.75rem] font-semibold text-bg;
+  }
+
+  .tag {
+    @apply inline-flex items-center rounded-sm border border-line/25 px-2 py-0.5 font-heading text-[0.75rem] font-semibold tracking-[0.02em] text-muted;
+  }
+
+  /* Claims — status tracker ------------------------------------------------ */
+  .status-panel {
+    @apply mt-10 rounded border border-line/15 bg-raised p-6 sm:p-8;
+  }
+
+  .tracker {
+    @apply mt-6 grid gap-0 md:grid-cols-4;
+  }
+
+  .tracker__step {
+    @apply relative pb-6 ps-9 md:pb-0 md:pe-4 md:ps-0 md:pt-8;
+  }
+
+  .tracker__step:last-child {
+    @apply pb-0;
+  }
+
+  .tracker__step::before {
+    content: '';
+    @apply absolute bottom-0 start-[0.5625rem] top-6 w-px bg-line/25 md:end-0 md:start-6 md:top-[0.5625rem] md:h-px md:w-auto;
+  }
+
+  .tracker__step:last-child::before {
+    @apply hidden;
+  }
+
+  .tracker__step[data-conditional]::before {
+    @apply bg-transparent;
+    border-inline-start: 1px dashed rgb(var(--c-line) / 0.35);
+  }
+
+  @media (min-width: 48rem) {
+    .tracker__step[data-conditional]::before {
+      border-inline-start: 0;
+      border-top: 1px dashed rgb(var(--c-line) / 0.35);
+    }
+  }
+
+  .tracker__dot {
+    @apply absolute start-0 top-0 inline-flex h-[1.125rem] w-[1.125rem] items-center justify-center rounded-full border-[1.5px] border-line/40 bg-raised text-bg;
+  }
+
+  .tracker__dot svg {
+    @apply hidden h-3 w-3;
+  }
+
+  .tracker__step[data-state='done'] .tracker__dot {
+    @apply border-heading bg-heading;
+  }
+
+  .tracker__step[data-state='done'] .tracker__dot svg {
+    @apply block;
+  }
+
+  .tracker__step[data-state='current'] .tracker__dot {
+    @apply border-[5px] border-accent-mark;
+  }
+
+  .tracker__label {
+    @apply block font-heading text-small font-semibold text-muted;
+  }
+
+  .tracker__step[data-state='done'] .tracker__label,
+  .tracker__step[data-state='current'] .tracker__label {
+    @apply text-heading;
+  }
+
+  .tracker__current {
+    @apply hidden;
+  }
+
+  /* Shape cue as well as colour: the current step carries a text label. */
+  .tracker__step[data-state='current'] .tracker__current {
+    @apply mt-0.5 block font-heading text-[0.75rem] font-semibold uppercase tracking-[0.08em] text-accent;
+  }
+
+  .tracker__desc {
+    @apply mt-1 block text-small text-muted;
+  }
+
+  /* Claims — "Try the claim flow": form beside the status panel from lg.
+     The panel column is narrow there, so its tracker runs vertically. */
+  .claim-flow__status {
+    @apply mt-0 lg:sticky lg:self-start;
+    top: calc(var(--header-h) + 1.5rem);
+  }
+
+  @media (min-width: 64rem) {
+    .claim-flow__status .tracker {
+      @apply grid-cols-1;
+    }
+
+    .claim-flow__status .tracker__step {
+      @apply pb-6 pe-0 ps-9 pt-0;
+    }
+
+    .claim-flow__status .tracker__step:last-child {
+      @apply pb-0;
+    }
+
+    .claim-flow__status .tracker__step::before {
+      @apply bottom-0 end-auto start-[0.5625rem] top-6 h-auto w-px;
+    }
+
+    .claim-flow__status .tracker__step[data-conditional]::before {
+      border-top: 0;
+      border-inline-start: 1px dashed rgb(var(--c-line) / 0.35);
+    }
+  }
+
+  /* Contact — compact map (broad regional view, no marker) ---------------- */
+  .map-frame {
+    @apply relative h-[17rem] overflow-hidden rounded border border-line/15 bg-surface-soft sm:h-[20rem] lg:h-[22rem];
+  }
+
+  .map-frame iframe {
+    @apply absolute inset-0 block h-full w-full border-0;
+  }
+
+  @media (orientation: landscape) and (max-height: 30rem) {
+    .map-frame {
+      height: 14rem;
+    }
+  }
+
+  /* ========================================================================
+     Account portal (login.html, dashboard.html)
+     Product UI: denser spacing, panels, data tables. Same tokens as the
+     public site, so themes, direction and contrast behave identically.
+     ======================================================================== */
+
+  /* Login ------------------------------------------------------------------- */
+  .auth-shell {
+    @apply grid lg:min-h-[100svh] lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] xl:grid-cols-[minmax(0,5fr)_minmax(0,6fr)];
+  }
+
+  /* Below lg the panel dissolves (display: contents) so its parts can be
+     ordered around the photo: bar, form, photo, footer. */
+  .auth-panel {
+    @apply contents lg:flex lg:min-h-[100svh] lg:flex-col lg:bg-bg;
+  }
+
+  .auth-bar { order: 1; }
+  .auth-main { order: 2; }
+  .auth-visual { order: 3; }
+  .auth-foot { order: 4; }
+
+  @media (min-width: 64rem) {
+    .auth-bar,
+    .auth-main,
+    .auth-visual,
+    .auth-foot {
+      order: 0;
+    }
+  }
+
+  /* Wraps onto two rows only on the narrowest phones, so no control shrinks. */
+  .auth-bar {
+    @apply flex min-h-[4.5rem] flex-wrap items-center justify-between gap-x-4 gap-y-3 px-gutter py-3 sm:h-header sm:flex-nowrap sm:px-10 sm:py-0;
+  }
+
+  .auth-main {
+    @apply flex flex-1 items-center justify-center px-gutter py-8 sm:px-10 sm:py-12;
+  }
+
+  .auth-main:focus {
+    outline: none;
+  }
+
+  .auth-card {
+    @apply w-full max-w-[26rem];
+  }
+
+  .auth-title {
+    @apply mt-3 font-heading text-h2 font-medium;
+  }
+
+  .auth-title:focus {
+    outline: none;
+  }
+
+  .auth-foot {
+    @apply flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-t border-line/10 px-gutter py-5 text-small text-muted sm:px-10;
+  }
+
+  .footer-link-plain {
+    @apply inline-flex min-h-[2.25rem] items-center underline decoration-transparent underline-offset-[0.3em] transition-colors hover:text-heading hover:decoration-current;
+  }
+
+  .auth-visual {
+    @apply relative overflow-hidden;
+  }
+
+  .auth-visual img {
+    @apply block aspect-[16/10] w-full object-cover sm:aspect-[2/1] lg:absolute lg:inset-0 lg:aspect-auto lg:h-full;
+    object-position: 80% 62%;
+  }
+
+  .auth-visual__note {
+    @apply bg-inverse px-gutter py-5 sm:px-10 sm:py-6 lg:absolute lg:inset-x-10 lg:bottom-10 lg:rounded lg:px-8 lg:py-7;
+  }
+
+  /* Sign In / Create Account switch (ARIA tabs), same 48px height as buttons. */
+  .auth-tabs {
+    @apply mb-8 grid h-12 grid-cols-2 gap-1 rounded border border-line/25 p-1;
+  }
+
+  .auth-tab {
+    @apply rounded-sm font-heading text-small font-semibold text-muted transition-colors hover:text-heading;
+  }
+
+  .auth-tab[aria-selected='true'] {
+    @apply bg-fg text-bg hover:text-bg;
+  }
+
+  .password-field {
+    @apply relative;
+  }
+
+  .password-field .input {
+    @apply pe-14;
+  }
+
+  .password-field__toggle {
+    @apply absolute end-1 top-1/2 inline-flex h-10 w-11 -translate-y-1/2 items-center justify-center rounded-sm text-muted transition-colors hover:text-heading;
+  }
+
+  .password-field__toggle svg {
+    @apply h-5 w-5;
+  }
+
+  .password-field__toggle[aria-pressed='true'] .icon-eye,
+  .password-field__toggle[aria-pressed='false'] .icon-eye-off {
+    display: none;
+  }
+
+  /* App shell --------------------------------------------------------------- */
+  .app-shell {
+    @apply min-h-[100svh] lg:grid lg:grid-cols-[16.5rem_minmax(0,1fr)];
+  }
+
+  .app-sidebar {
+    @apply fixed bottom-0 start-0 top-0 z-[60] flex -translate-x-full flex-col overflow-y-auto;
+    width: min(18rem, calc(100% - 3.5rem));
+    height: 100dvh;
+    visibility: hidden;
+    overscroll-behavior: contain;
+    /* Hide only after the slide-out finishes... */
+    transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1), visibility 0s linear 0.3s;
+  }
+
+  [dir='rtl'] .app-sidebar {
+    @apply translate-x-full;
+  }
+
+  .app-sidebar[data-state='open'] {
+    @apply translate-x-0;
+    visibility: visible;
+    /* ...but become visible (and focusable) immediately on open: visibility is
+       left out of the transition so even the reduced-motion override can't delay it. */
+    transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  @media (min-width: 64rem) {
+    .app-sidebar,
+    [dir='rtl'] .app-sidebar {
+      @apply sticky z-auto translate-x-0;
+      width: auto;
+      height: 100svh;
+      visibility: visible;
+      transition: none;
+    }
+  }
+
+  .app-backdrop {
+    @apply fixed inset-0 z-[55] bg-overlay/55 lg:hidden;
+  }
+
+  .app-sidebar__head {
+    @apply flex h-header shrink-0 items-center justify-between gap-3 border-b border-line/15 px-5;
+  }
+
+  .app-sidebar__close {
+    @apply h-11 w-11 lg:hidden;
+  }
+
+  .app-nav {
+    @apply flex-1 px-3 py-4;
+  }
+
+  .app-nav__link {
+    @apply relative flex min-h-[2.875rem] items-center gap-3 rounded px-3 font-heading text-[0.9375rem] font-medium text-muted transition-colors duration-150 hover:bg-line/10 hover:text-heading;
+  }
+
+  .app-nav__link svg {
+    @apply h-5 w-5 shrink-0;
+  }
+
+  .app-nav__link[aria-current='page'] {
+    @apply bg-line/[0.12] font-semibold text-heading;
+  }
+
+  .app-nav__link[aria-current='page']::before {
+    content: '';
+    @apply absolute bottom-2.5 start-0 top-2.5 w-[3px] rounded-sm bg-accent-mark;
+  }
+
+  .app-sidebar__foot {
+    @apply flex shrink-0 flex-col gap-4 border-t border-line/15 px-3 pb-5 pt-5;
+  }
+
+  .app-sidebar__policy {
+    @apply px-3;
+  }
+
+  .app-main {
+    @apply flex min-w-0 flex-col;
+  }
+
+  .app-topbar {
+    @apply sticky top-0 z-30 flex h-header items-center gap-3 border-b border-line/10 bg-bg px-gutter lg:px-8;
+  }
+
+  .app-topbar__title {
+    @apply min-w-0 truncate font-heading text-h4 font-semibold sm:text-[1.375rem];
+  }
+
+  .app-topbar__title:focus {
+    outline: none;
+  }
+
+  .app-content {
+    @apply flex-1 px-gutter py-6 lg:px-8 lg:py-8;
+  }
+
+  .app-view {
+    @apply mx-auto max-w-[78rem];
+  }
+
+  .app-greeting {
+    @apply font-heading text-h3 font-medium;
+  }
+
+  .account-btn {
+    @apply inline-flex h-12 items-center gap-2 rounded border border-transparent px-1.5 transition-colors hover:border-line/25;
+  }
+
+  .avatar {
+    @apply inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-heading font-heading text-small font-semibold text-bg;
+  }
+
+  .dropdown--end {
+    @apply end-0 start-auto;
+  }
+
+  /* Panels & data ----------------------------------------------------------- */
+  .panel {
+    @apply rounded border border-line/[0.12] bg-raised p-5 sm:p-6;
+  }
+
+  .panel__head {
+    @apply flex flex-wrap items-start justify-between gap-3;
+  }
+
+  .panel__title {
+    @apply font-heading text-h4 font-semibold text-heading;
+  }
+
+  .panel__title:focus {
+    outline: none;
+  }
+
+  .app-grid {
+    @apply grid gap-6 xl:grid-cols-12;
+  }
+
+  .app-grid__main {
+    @apply xl:col-span-8;
+  }
+
+  .app-grid__side {
+    @apply xl:col-span-4;
+  }
+
+  .app-grid--claims .app-grid__main {
+    @apply xl:col-span-8;
+  }
+
+  .app-grid--claims .app-grid__side {
+    @apply xl:col-span-4;
+  }
+
+  .kv {
+    @apply grid gap-x-6 gap-y-4;
+  }
+
+  .kv--2 {
+    @apply grid-cols-2;
+  }
+
+  .kv--3 {
+    @apply grid-cols-2 sm:grid-cols-3;
+  }
+
+  .kv--4 {
+    @apply grid-cols-2 lg:grid-cols-4;
+  }
+
+  .kv dt {
+    @apply text-small text-muted;
+  }
+
+  .kv dd {
+    @apply mt-0.5 font-heading font-semibold text-heading;
+  }
+
+  .status {
+    @apply inline-flex items-center gap-1.5 rounded-sm border px-2 py-0.5 text-start font-heading text-[0.75rem] font-semibold leading-snug;
+  }
+
+  .status::before {
+    content: '';
+    @apply h-1.5 w-1.5 shrink-0 rounded-full bg-current;
+  }
+
+  .status--neutral { @apply border-line/30 text-fg; }
+  .status--info { @apply border-heading/40 text-heading; }
+  .status--attention { @apply border-accent/60 text-accent; }
+  .status--positive { @apply border-positive/50 bg-positive-bg/70 text-positive; }
+
+  .meter {
+    @apply h-3 overflow-hidden rounded-sm bg-line/[0.12];
+  }
+
+  .meter__fill {
+    @apply block h-full rounded-sm bg-heading transition-[width] duration-500;
+  }
+
+  .legend-swatch {
+    @apply inline-block h-2.5 w-2.5 rounded-sm;
+  }
+
+  .legend-swatch--empty {
+    @apply border border-line/40;
+  }
+
+  .pet-photo {
+    @apply rounded object-cover;
+    object-position: 60% 35%;
+  }
+
+  .pet-profile {
+    @apply flex flex-col gap-6 md:flex-row md:items-start;
+  }
+
+  .pet-profile__photo {
+    @apply aspect-[3/2] w-full md:aspect-[4/5] md:w-64;
+  }
+
+  .cover-list > li {
+    @apply grid grid-cols-[7.5rem_minmax(0,1fr)] items-baseline gap-4 border-t border-line/10 py-4;
+  }
+
+  .cover-list > li:first-child {
+    @apply border-t-0 pt-0;
+  }
+
+  .detail-note {
+    @apply mt-5 rounded-sm border-s-2 border-heading bg-surface-soft px-4 py-3;
+  }
+
+  .detail-note--attention {
+    @apply border-accent;
+  }
+
+  .attention-list > li {
+    @apply flex items-start justify-between gap-3 border-t border-line/10 py-3;
+  }
+
+  .quick-actions {
+    @apply grid grid-cols-2 gap-2 sm:flex sm:flex-wrap;
+  }
+
+  .quick-actions > :first-child {
+    @apply col-span-2;
+  }
+
+  .notice-bar {
+    @apply flex items-start gap-3 rounded border border-positive/40 bg-positive-bg/50 px-4 py-3 text-small font-medium text-fg;
+  }
+
+  .notice-bar:focus {
+    outline: none;
+  }
+
+  .notice-bar svg {
+    @apply mt-0.5 h-5 w-5 shrink-0 text-positive;
+  }
+
+  .plan-table th.is-current,
+  .plan-table td.is-current {
+    @apply bg-surface;
+  }
+
+  /* Data table → stacked list below md --------------------------------------- */
+  .data-table {
+    @apply w-full border-collapse text-small;
+  }
+
+  .data-table th,
+  .data-table td {
+    @apply border-b border-line/10 px-3 py-3 text-start align-middle;
+  }
+
+  .data-table thead th {
+    @apply py-2.5 text-[0.8125rem] font-medium text-muted;
+  }
+
+  .data-table tbody th {
+    @apply font-heading font-semibold text-heading;
+  }
+
+  .data-table .num {
+    @apply text-end tabular-nums;
+  }
+
+  .data-table tbody th,
+  .data-table td[data-label='Visit date'],
+  .data-table .num {
+    @apply whitespace-nowrap;
+  }
+
+  /* RTL: isolate each cell so Latin dates and amounts keep their order
+     ("9 Oct 2026", not "Oct 2026 9"), while staying aligned to the RTL edge. */
+  [dir='rtl'] .data-table :is(td, th) {
+    unicode-bidi: plaintext;
+    text-align: right;
+  }
+
+  [dir='rtl'] .data-table :is(.num, .actions) {
+    text-align: left;
+  }
+
+  .data-table .actions {
+    @apply whitespace-nowrap text-end;
+  }
+
+  .data-table tbody tr.is-selected {
+    @apply bg-surface-soft;
+  }
+
+  .is-compact .data-table th,
+  .is-compact .data-table td {
+    @apply py-1.5;
+  }
+
+  @media (max-width: 47.99rem) {
+    .data-table thead {
+      @apply sr-only;
+    }
+
+    .data-table tbody,
+    .data-table tr {
+      @apply block;
+    }
+
+    .data-table tr {
+      @apply border-b border-line/10 py-3;
+    }
+
+    .data-table th,
+    .data-table td {
+      @apply flex items-center justify-between gap-4 border-0 px-0 py-1;
+    }
+
+    .data-table td::before {
+      content: attr(data-label);
+      @apply text-muted;
+    }
+
+    .data-table td.actions {
+      @apply justify-end pt-2;
+    }
+
+    .data-table tbody th {
+      @apply text-body;
+    }
+  }
+
+  /* Controls ----------------------------------------------------------------- */
+  .segmented {
+    @apply inline-flex h-12 items-stretch gap-1 rounded border border-line/25 p-1;
+  }
+
+  .segmented__btn {
+    @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-sm px-3.5 font-heading text-small font-semibold text-muted transition-colors hover:text-heading;
+  }
+
+  .segmented__btn[aria-pressed='true'],
+  .segmented__btn:has(input:checked) {
+    @apply bg-fg text-bg hover:text-bg;
+  }
+
+  .segmented--radio input {
+    @apply sr-only;
+  }
+
+  .segmented--radio .segmented__btn:focus-within {
+    outline: 2px solid rgb(var(--c-focus));
+    outline-offset: 2px;
+  }
+
+  .switch {
+    @apply relative inline-flex cursor-pointer items-start gap-3;
+  }
+
+  .switch input {
+    @apply sr-only;
+  }
+
+  .switch__track {
+    @apply relative mt-0.5 h-6 w-11 shrink-0 rounded-full border border-line/40 bg-surface-soft transition-colors;
+  }
+
+  .switch__track::after {
+    content: '';
+    @apply absolute start-[3px] top-[3px] h-4 w-4 rounded-full bg-muted transition-[inset-inline-start,background-color] duration-200;
+  }
+
+  .switch input:checked + .switch__track {
+    @apply border-heading bg-heading;
+  }
+
+  .switch input:checked + .switch__track::after {
+    @apply bg-bg;
+    inset-inline-start: calc(100% - 1rem - 3px);
+  }
+
+  .switch input:focus-visible + .switch__track {
+    outline: 2px solid rgb(var(--c-focus));
+    outline-offset: 2px;
+  }
+
+  .settings-group {
+    @apply mt-7 border-t border-line/[0.12] pt-6;
+  }
+
+  .settings-group__title {
+    @apply mb-4 w-full font-heading text-small font-semibold uppercase tracking-[0.1em] text-muted;
+    float: left;
+  }
+
+  [dir='rtl'] .settings-group__title {
+    float: right;
+  }
+
+  .settings-group__title + * {
+    clear: both;
+  }
+
+  /* Claim stages inside the narrow detail panel: always vertical. */
+  .tracker--stacked {
+    @apply mt-4 md:grid-cols-1 md:gap-0;
+  }
+
+  .tracker--stacked .tracker__step {
+    @apply md:pb-6 md:pe-0 md:ps-9 md:pt-0;
+  }
+
+  .tracker--stacked .tracker__step:last-child {
+    @apply md:pb-0;
+  }
+
+  .tracker--stacked .tracker__step::before {
+    @apply md:bottom-0 md:end-auto md:start-[0.5625rem] md:top-6 md:h-auto md:w-px;
+  }
+
+  @media (min-width: 48rem) {
+    .tracker--stacked .tracker__step[data-conditional]::before {
+      border-top: 0;
+      border-inline-start: 1px dashed rgb(var(--c-line) / 0.35);
+    }
+  }
+
+  .tracker__step[data-state='skipped'] .tracker__dot {
+    @apply border-dashed;
+  }
+
+  /* Inner pages — numbered principle rows --------------------------------- */
+  .principle-rows {
+    @apply mt-12 border-t-2 border-heading;
+  }
+
+  .principle-rows > li {
+    @apply grid grid-cols-[3rem_minmax(0,1fr)] gap-x-4 gap-y-2 border-b border-line/15 py-7 md:grid-cols-[4rem_minmax(0,0.9fr)_minmax(0,1.3fr)] md:items-baseline md:gap-x-8;
+  }
+
+  .principle-rows__num {
+    @apply font-heading text-h3 font-medium leading-none text-accent;
+  }
+
+  .principle-rows__text {
+    @apply col-start-2 text-muted md:col-start-3;
+  }
+
+  /* Pull statement with an inline-start rule. */
+  .pull {
+    @apply border-s-2 border-accent-mark ps-5 font-heading text-h4 font-medium text-heading;
+  }
+
+  /* Supporting list on the pine band. */
+  .support-list > li {
+    @apply flex items-start gap-3 border-t border-line/20 py-4;
+  }
+
+  .support-list svg {
+    @apply mt-0.5 h-5 w-5 shrink-0 text-accent;
+  }
+
+  /* Contact — enquiry options --------------------------------------------- */
+  .options {
+    @apply mt-12 grid border-t-2 border-heading md:grid-cols-3;
+  }
+
+  .option {
+    @apply flex flex-col border-b border-line/15 py-7 md:border-b-0 md:border-s md:px-7 md:py-2 md:pt-8;
+  }
+
+  .option:first-child {
+    @apply md:border-s-0 md:ps-0;
+  }
+
+  .option:last-child {
+    @apply md:pe-0;
+  }
+
+  .option__icon {
+    @apply inline-flex h-11 w-11 items-center justify-center rounded border border-line/20 text-heading;
+  }
+
+  .option__icon svg {
+    @apply h-[1.375rem] w-[1.375rem];
+  }
+
+  .option__link {
+    @apply mt-auto pt-5;
+  }
+
+  /* Contact — form states -------------------------------------------------- */
+  .form-summary {
+    @apply mb-6 flex items-start gap-3 rounded border-s-4 border-accent bg-surface-soft px-4 py-3 text-small font-medium text-fg;
+  }
+
+  .form-summary svg,
+  .field-error svg {
+    @apply mt-0.5 h-4 w-4 shrink-0;
+  }
+
+  .form-summary svg {
+    @apply text-accent;
+  }
+
+  .form-success {
+    @apply rounded border border-line/15 bg-surface-soft p-6 sm:p-8;
+  }
+
+  .form-success:focus {
+    outline: none;
+  }
+
+  /* Contact — resource rows ------------------------------------------------ */
+  .resource-list {
+    @apply border-t-2 border-heading;
+  }
+
+  .resource-link {
+    @apply grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-6 gap-y-1 border-b border-line/15 py-6 transition-colors duration-200 hover:bg-surface-soft sm:px-4;
+  }
+
+  .resource-link__title {
+    @apply font-heading text-h4 font-semibold text-heading underline decoration-transparent underline-offset-[0.3em] transition-[text-decoration-color] duration-200;
+  }
+
+  .resource-link:hover .resource-link__title {
+    @apply decoration-heading/60;
+  }
+
+  .resource-link__desc {
+    @apply col-start-1 text-small text-muted;
+  }
+
+  .resource-link__arrow {
+    @apply col-start-2 row-span-2 row-start-1 h-5 w-5 text-heading transition-transform duration-200;
+  }
+
+  .resource-link:hover .resource-link__arrow {
+    transform: translateX(4px);
+  }
+
+  [dir='rtl'] .resource-link__arrow {
+    transform: scaleX(-1);
+  }
+
+  [dir='rtl'] .resource-link:hover .resource-link__arrow {
+    transform: scaleX(-1) translateX(4px);
+  }
+
+  /* Utilities-as-components ---------------------------------------------- */
+  .skip-link {
+    @apply fixed start-4 top-0 z-[70] -translate-y-[150%] rounded bg-inverse px-4 py-3 font-heading text-small font-semibold text-brand-porcelain transition-transform duration-150 focus:translate-y-3;
+  }
+
+  .placeholder-note {
+    @apply inline-flex items-center gap-3 border-s-2 border-accent-mark ps-4 text-small text-muted;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   4. Behaviour states
+   -------------------------------------------------------------------------- */
+html.is-scroll-locked {
+  overflow: hidden;
+}
+
+html.is-scroll-locked body {
+  padding-right: var(--scrollbar-comp, 0px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   5. Global heading alignment guard — MANDATORY, DO NOT REMOVE
+   Headings are never right- or end-aligned: not at any breakpoint, not in
+   RTL, not via an inherited container alignment, not via a utility class.
+   They are left-aligned by default (physical `left`, so dir="rtl" can't flip
+   them). Centring is an explicit opt-in with .heading-center, used only when
+   the composition genuinely calls for it.
+   Declared outside @layer and with !important so no utility can override it.
+   -------------------------------------------------------------------------- */
+:is(h1, h2, h3, h4, h5, h6, [role='heading']) {
+  text-align: left !important;
+}
+
+:is(h1, h2, h3, h4, h5, h6, [role='heading']).heading-center {
+  text-align: center !important;
+}
+
+/* In RTL mode, resolve each text block's direction from its own content so
+   Latin copy keeps its punctuation in the right place ("it." not ".it").
+   `plaintext` makes `start` resolve to the left for Latin text, so body copy
+   is set back to the RTL reading edge with zero specificity (any alignment
+   utility still wins). Headings are excluded: they stay left-aligned. */
+[dir='rtl'] :is(h1, h2, h3, h4, h5, h6, p, li, dt, dd, label, figcaption, blockquote, span, strong, a, button, legend, caption) {
+  unicode-bidi: plaintext;
+}
+
+:where([dir='rtl']) :where(p, li, dt, dd, label, figcaption, blockquote) {
+  text-align: right;
+}
